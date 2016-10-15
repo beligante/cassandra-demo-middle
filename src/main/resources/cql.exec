@@ -1,0 +1,14 @@
+CREATE KEYSPACE demo WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 3};
+
+CREATE TABLE demo.users (
+	user_id uuid,
+	username text,
+	first_name text,
+	last_name text,
+	PRIMARY KEY (user_id));
+
+CREATE TABLE demo.user_lookup_by_username (
+	user_id uuid,
+	username text,
+	PRIMARY KEY (username)
+);

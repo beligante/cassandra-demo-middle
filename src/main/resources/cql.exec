@@ -2,13 +2,39 @@ CREATE KEYSPACE demo WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replicati
 
 CREATE TABLE demo.users (
 	user_id uuid,
-	username text,
+	email text,
 	first_name text,
 	last_name text,
+	since timestamp,
 	PRIMARY KEY (user_id));
 
-CREATE TABLE demo.user_lookup_by_username (
+CREATE TABLE demo.user_credentials (
 	user_id uuid,
-	username text,
-	PRIMARY KEY (username)
-);
+	email text,
+	password text,
+	PRIMARY KEY (email));
+	
+CREATE TABLE demo.photos (
+	photo_id uuid,
+	user_id uuid,
+	name text,
+	description text,
+	image text,
+	location text,
+	tags set<text>,
+	added_date timestamp,
+	PRIMARY KEY (photo_id));
+	
+CREATE TABLE demo.photos_by_user_id (
+	user_id uuid,
+	added_date timestamp,
+	photo_id uuid,
+	photo_name text,
+	PRIMARY KEY (user_id, added_date, photo_id));
+	
+CREATE TABLE demo.latest_photos (
+	ddmmyyyy text,
+	added_date timestamp,
+	photo_id uuid,
+	photo_name text,
+	PRIMARY KEY (ddmmyyyy, added_date, photo_id));

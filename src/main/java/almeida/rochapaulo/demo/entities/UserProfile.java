@@ -1,5 +1,6 @@
-package almeida.rochapaulo.cassandra.demo.entity;
+package almeida.rochapaulo.demo.entities;
 
+import java.util.Date;
 import java.util.UUID;
 
 import com.datastax.driver.mapping.annotations.Column;
@@ -9,26 +10,24 @@ import com.datastax.driver.mapping.annotations.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * 
- * @author rochapaulo
- *
- */
 @Getter @Setter
 @Table(name = "users")
-public class User {
+public class UserProfile {
 
 	@PartitionKey
 	@Column(name = "user_id")
-	private UUID uuid;
-	
-	@Column(name = "username")
-	private String username;
-	
+	private UUID userId;
+
 	@Column(name = "first_name")
 	private String firstName;
 	
 	@Column(name = "last_name")
 	private String lastName;
-
+	
+	@Column(name = "email")
+	private String email;
+	
+	@Column(name = "since")
+	private Date since;
+	
 }

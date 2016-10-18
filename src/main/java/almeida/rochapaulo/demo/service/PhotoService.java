@@ -4,9 +4,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.MappingManager;
-import com.google.inject.Inject;
 
 import almeida.rochapaulo.demo.api.requests.CreatePhoto;
 import almeida.rochapaulo.demo.entities.LatestPhotos;
@@ -20,7 +21,7 @@ public class PhotoService {
 	private Mapper<PhotosByUserID> photoByUserIdMapper;
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");
 	
-	@Inject
+	@Autowired
 	public PhotoService(MappingManager manager) {
 		photoMapper = manager.mapper(Photo.class);
 		latestPhotoMapper = manager.mapper(LatestPhotos.class);

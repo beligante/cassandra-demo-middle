@@ -11,23 +11,24 @@ import java.util.UUID;
 
 import javax.imageio.ImageIO;
 
+import org.junit.Ignore;
 import org.junit.Test;
+import org.springframework.boot.SpringApplication;
+import org.springframework.context.ApplicationContext;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-
+import almeida.rochapaulo.demo.Bootstrap;
 import almeida.rochapaulo.demo.api.requests.CreatePhoto;
 import almeida.rochapaulo.demo.api.requests.CreateUser;
-import almeida.rochapaulo.demo.conf.Bootstrap;
 
+@Ignore
 public class DemoTest {
 
 	@Test
 	public void createUser() throws Exception {
 	
-		Injector injector = Guice.createInjector(new Bootstrap());
+		ApplicationContext ctx = SpringApplication.run(Bootstrap.class);
 		
-		UserManagement service = injector.getInstance(UserManagement.class);
+		UserManagement service = ctx.getBean(UserManagement.class);
 		UUID userId = null;
 		{
 			CreateUser request = new CreateUser();
@@ -39,7 +40,7 @@ public class DemoTest {
 			userId = service.createUser(request).getUserId();
 		}
 		
-		PhotoService photoService = injector.getInstance(PhotoService.class);
+		PhotoService photoService = ctx.getBean(PhotoService.class);
 		{
 			CreatePhoto request = new CreatePhoto();
 			request.setName("CN Tower");

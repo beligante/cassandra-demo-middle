@@ -1,6 +1,7 @@
 package almeida.rochapaulo.demo.api;
 
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,12 @@ public class UserManagementRS {
 	public ResponseEntity<UserProfile> getUserProfile(@PathVariable String userId) {
 		
 		return ResponseEntity.ok(service.findProfileById(UUID.fromString(userId)));
+	}
+	
+	@RequestMapping(path = "/users", method = RequestMethod.GET, produces = "application/json")
+	public ResponseEntity<List<UserProfile>> getUsersProfile() {
+		
+		return ResponseEntity.ok(service.getAllProfiles());
 	}
 	
 }

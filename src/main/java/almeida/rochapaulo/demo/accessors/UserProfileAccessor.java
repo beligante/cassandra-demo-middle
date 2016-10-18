@@ -11,10 +11,10 @@ import almeida.rochapaulo.demo.entities.UserProfile;
 @Accessor
 public interface UserProfileAccessor {
 
-	@Query("SELECT * FROM user_profile")
+	@Query("SELECT * FROM users")
 	Result<UserProfile> getAll();
 	
-	@Query("SELECT * FROM user_profile")
+	@Query("SELECT * FROM users")
 	@QueryParameters(consistency="QUORUM")
 	ListenableFuture<Result<UserProfile>> getAllAsync();
 	

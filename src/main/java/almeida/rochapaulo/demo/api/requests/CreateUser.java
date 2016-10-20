@@ -1,9 +1,8 @@
 package almeida.rochapaulo.demo.api.requests;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter @Setter
+@Data
 public class CreateUser {
 
 	private String email;

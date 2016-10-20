@@ -2,10 +2,9 @@ package almeida.rochapaulo.demo.api.requests;
 
 import java.util.Set;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter @Setter
+@Data
 public class CreatePhoto {
 
 	private String name;

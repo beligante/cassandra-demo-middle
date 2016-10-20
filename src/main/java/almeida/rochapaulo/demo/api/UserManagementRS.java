@@ -1,5 +1,10 @@
 package almeida.rochapaulo.demo.api;
 
+import static almeida.rochapaulo.demo.filters.ProfileFilters.byEmail;
+import static almeida.rochapaulo.demo.filters.ProfileFilters.byFirstName;
+import static almeida.rochapaulo.demo.filters.ProfileFilters.byLastname;
+import static java.util.stream.Collectors.toList;
+
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
@@ -10,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import almeida.rochapaulo.demo.api.requests.CreateUser;
@@ -26,11 +32,6 @@ public class UserManagementRS {
 		this.service = service;
 	}
 	
-	@RequestMapping("/")
-	public String hello() {
-		return "Greetings from Spring Boot!";
-	}
-	
 	@RequestMapping(path = "/users", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<Void> createUser(@RequestBody CreateUser request) throws Exception {
 
@@ -41,15 +42,37 @@ public class UserManagementRS {
 	}
 	
 	@RequestMapping(path = "/users/{userId}", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<UserProfile> getUserProfile(@PathVariable String userId) {
+	public ResponseEntity<?> getUserProfile(@PathVariable String userId) {
 		
-		return ResponseEntity.ok(service.findProfileById(UUID.fromString(userId)));
+		UserProfile profile = service.findProfileById(UUID.fromString(userId));
+		
+		if (profile == null) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		return ResponseEntity.ok(profile);
 	}
 	
 	@RequestMapping(path = "/users", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<List<UserProfile>> getUsersProfile() {
+	public ResponseEntity<?> getUsersProfile(
+			@RequestParam(name = "firstName", required = false) String firstName,
+			@RequestParam(name = "lastName", required = false) String lastName,
+			@RequestParam(name = "email", required = false) String email
+	) {
 		
-		return ResponseEntity.ok(service.getAllProfiles());
+		List<UserProfile> profiles = 
+				service.getAllProfiles()
+					.parallelStream()
+						.filter(byFirstName(firstName))
+						.filter(byLastname(lastName))
+						.filter(byEmail(email))
+					.collect(toList());
+		
+		if (profiles.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		return ResponseEntity.ok(profiles);
 	}
-	
+
 }

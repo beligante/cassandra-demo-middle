@@ -19,6 +19,7 @@ import almeida.rochapaulo.demo.entities.UserProfile;
 
 public class UserManagement {
 
+	private final Hasher hasher = Hasher.instance();
 	private final MappingManager manager;
 	private final Mapper<UserProfile> profileMapper;
 	private final Mapper<UserCredential> credentialMapper;
@@ -49,7 +50,7 @@ public class UserManagement {
 		UserCredential credential = new UserCredential();
 		credential.setUserId(userID);
 		credential.setEmail(createUser.getEmail());
-		credential.setPassword(createUser.getPassword());
+		credential.setPassword(hasher.hash(createUser.getPassword()));
 		batch.add(credentialMapper.saveQuery(credential));
 	
 		Session session = manager.getSession();

@@ -26,6 +26,9 @@ public class PhotosByUserID {
 	@Column(name = "photo_id")
 	private UUID photoId;
 	
+	@Column(name = "location")
+	private String location;
+	
 	@Column(name = "photo_name")
 	private String photoName;
 	

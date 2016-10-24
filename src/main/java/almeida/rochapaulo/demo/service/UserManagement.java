@@ -45,16 +45,17 @@ public class UserManagement {
 		profile.setFirstName(createUser.getFirstName());
 		profile.setLastName(createUser.getLastName());
 		profile.setSince(new Date());
-		batch.add(profileMapper.saveQuery(profile));
 		
 		UserCredential credential = new UserCredential();
 		credential.setUserId(userID);
 		credential.setEmail(createUser.getEmail());
 		credential.setPassword(hasher.hash(createUser.getPassword()));
+		
+		batch.add(profileMapper.saveQuery(profile));
 		batch.add(credentialMapper.saveQuery(credential));
 	
 		Session session = manager.getSession();
-		session.executeAsync(batch);
+		session.execute(batch);
 		
 		return profile;
 	}

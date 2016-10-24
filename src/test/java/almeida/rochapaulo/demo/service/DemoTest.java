@@ -45,7 +45,6 @@ public class DemoTest {
 			CreatePhoto request = new CreatePhoto();
 			request.setName("CN Tower");
 			request.setDescription("Trip to Canadá, 2005");
-			request.setLocation("Brazil");
 			request.setBase64Image(toBase64("CN_Tower.jpg"));
 			
 			Set<String> tags = new HashSet<>();

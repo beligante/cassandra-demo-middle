@@ -27,9 +27,6 @@ public class Photo {
 	@Column(name = "description")
 	private String description;
 	
-	@Column(name = "image")
-	private String base64Image;
-	
 	@Column(name = "location")
 	private String location;
 	

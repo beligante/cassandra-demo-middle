@@ -9,7 +9,6 @@ public class CreatePhoto {
 
 	private String name;
 	private String description;
-	private String location;
 	private Set<String> tags;
 	private String addeDdate;
 	private String base64Image;

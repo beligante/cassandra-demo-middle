@@ -41,8 +41,8 @@ CREATE TABLE demo.latest_photos (
 	
 CREATE TABLE demo.photo_rank (
 	photo_id uuid,
-	stars int,
+	stars varchar,
 	votes counter,
-	PRIMARY KEY(stars, votes));
+	PRIMARY KEY(stars, photo_id));
 
 	

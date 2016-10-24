@@ -13,6 +13,7 @@ import lombok.Data;
 @Table(name = "photo_rank")
 public class PhotoRank {
 
+	@ClusteringColumn
 	@Column(name = "photo_id")
 	private UUID photoId;
 
@@ -20,7 +21,6 @@ public class PhotoRank {
 	@Column(name = "stars")
 	private int stars = 0;
 
-	@ClusteringColumn
 	@Column(name = "votes")
 	private long votes = 0;
 

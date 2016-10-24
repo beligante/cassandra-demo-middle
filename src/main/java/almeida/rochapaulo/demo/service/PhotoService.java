@@ -17,7 +17,6 @@ import almeida.rochapaulo.demo.accessors.PhotosAccessor;
 import almeida.rochapaulo.demo.api.requests.CreatePhoto;
 import almeida.rochapaulo.demo.entities.LatestPhotos;
 import almeida.rochapaulo.demo.entities.Photo;
-import almeida.rochapaulo.demo.entities.PhotoRank;
 import almeida.rochapaulo.demo.entities.PhotosByUserID;
 
 public class PhotoService {
@@ -26,7 +25,6 @@ public class PhotoService {
 	private final Mapper<Photo> photoMapper;
 	private final Mapper<LatestPhotos> latestPhotoMapper;
 	private final Mapper<PhotosByUserID> photoByUserIdMapper;
-	private final Mapper<PhotoRank> photoRankMapper;
 	private final PhotosAccessor photosAccessor;
 	private final SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");
 	
@@ -36,19 +34,19 @@ public class PhotoService {
 		photoMapper = manager.mapper(Photo.class);
 		latestPhotoMapper = manager.mapper(LatestPhotos.class);
 		photoByUserIdMapper = manager.mapper(PhotosByUserID.class);
-		photoRankMapper = manager.mapper(PhotoRank.class);
 		photosAccessor = manager.createAccessor(PhotosAccessor.class);
 	}
 	
-	public void save(UUID userId, CreatePhoto request) {
+	public Photo save(CreatePhoto request) {
 
 		final UUID imageUUID = UUID.randomUUID();
+		final UUID userUUID = UUID.fromString(request.getUserId());
 		final Date today = new Date();
 		final String imageLocation = insertToS3Bucket(request.getBase64Image());
 		final BatchStatement batch = new BatchStatement();
 		
 		Photo photo = new Photo();
-		photo.setUserId(userId);
+		photo.setUserId(userUUID);
 		photo.setUuid(imageUUID);
 		photo.setName(request.getName());
 		photo.setDescription(request.getDescription());
@@ -63,22 +61,22 @@ public class PhotoService {
 		latestPhoto.setDdMMyyyy(dateFormat.format(today));
 		
 		PhotosByUserID byUserId = new PhotosByUserID();
-		byUserId.setUserId(userId);
+		byUserId.setUserId(userUUID);
 		byUserId.setPhotoId(imageUUID);
 		byUserId.setPhotoName(request.getName());
 		byUserId.setAddedDate(today);
 		byUserId.setLocation(imageLocation);
 		
-		PhotoRank photoRank = new PhotoRank();
-		photoRank.setPhotoId(imageUUID);
-		
 		batch.add(photoMapper.saveQuery(photo));
 		batch.add(latestPhotoMapper.saveQuery(latestPhoto));
 		batch.add(photoByUserIdMapper.saveQuery(byUserId));
-		batch.add(photoRankMapper.saveQuery(photoRank));
+		
+		photosAccessor.insertUnrated(imageUUID);
 		
 		Session session = manager.getSession();
 		session.execute(batch);
+		
+		return photo;
 	}
 	
 	private String insertToS3Bucket(String base64Image) {
@@ -87,7 +85,7 @@ public class PhotoService {
 		 * Integrate with AWS S3 bucket
 		 */
 		
-		return "";
+		return "img_" + System.currentTimeMillis() + ".jpg";
 	}
 
 	public void ratePhoto(UUID photoId, String stars) {

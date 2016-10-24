@@ -54,7 +54,7 @@ public class DemoTest {
 			tags.add("Tower");
 			request.setTags(tags);
 			
-			photoService.save(userId, request);
+			photoService.save(request);
 		}
 		
 	}

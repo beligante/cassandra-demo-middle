@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import almeida.rochapaulo.demo.api.requests.CreateUser;
 import almeida.rochapaulo.demo.entities.UserProfile;
 import almeida.rochapaulo.demo.service.UserManagement;
+import almeida.rochapaulo.demo.service.exceptions.EntityAlreadyExists;
 
 @RestController
 public class UserManagementRS {
@@ -33,12 +35,21 @@ public class UserManagementRS {
 	}
 	
 	@RequestMapping(path = "/users", method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<Void> createUser(@RequestBody CreateUser request) throws Exception {
+	public ResponseEntity<?> createUser(@RequestBody CreateUser request) throws Exception {
 
-		UserProfile profileCreated = service.createUser(request);
-		URI resourceLocation = new URI("/users/" + profileCreated.getUserId());
+		try {
+			
+			UserProfile profileCreated = service.createUser(request);
+			URI resourceLocation = new URI("/users/" + profileCreated.getUserId());
+			
+			return ResponseEntity.created(resourceLocation).build();
+			
+		} catch (EntityAlreadyExists ex) {
+			
+			String message = "user email " + request.getEmail() + " already exists";
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(message);
+		}
 		
-		return ResponseEntity.created(resourceLocation).build();
 	}
 	
 	@RequestMapping(path = "/users/{userId}", method = RequestMethod.GET, produces = "application/json")

@@ -1,0 +1,163 @@
+{
+	"variables": [],
+	"info": {
+		"name": "CassandraDemo",
+		"_postman_id": "efee3869-2a0b-c9f5-1135-e56edf508def",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Photos",
+			"description": "",
+			"item": [
+				{
+					"name": "Upload Photo",
+					"request": {
+						"url": "http://localhost:8080/photos",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"userId\": \"b8a35b44-d259-4d6d-acfa-65b358bd8b1f\",\n\t\"name\": \"CN Tower\",\n\t\"description\": \"Top of Toronto from CN Tower\",\n\t\"tags\": [ \"Canadá\", \"Toronto\", \"CN Tower\", \"Ontario\"],\n\t\"base64Image\": \"x64img001\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve All Photos",
+					"request": {
+						"url": "http://localhost:8080/photos/",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"userId\": \"b8a35b44-d259-4d6d-acfa-65b358bd8b1f\",\n\t\"name\": \"Cristo Redentor\",\n\t\"description\": \"Cristo Redentor\",\n\t\"tags\": [ \"Cristo\", \"Redentor\", \"RJ\", \"Rio de Janeiro\"],\n\t\"base64Image\": \"x64img002\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve Photos by User UUID",
+					"request": {
+						"url": "http://localhost:8080/photos/user/b8a35b44-d259-4d6d-acfa-65b358bd8b1f",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"userId\": \"b8a35b44-d259-4d6d-acfa-65b358bd8b1f\",\n\t\"name\": \"Cristo Redentor\",\n\t\"description\": \"Cristo Redentor\",\n\t\"tags\": [ \"Cristo\", \"Redentor\", \"RJ\", \"Rio de Janeiro\"],\n\t\"base64Image\": \"x64img002\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve Photo by UUID",
+					"request": {
+						"url": "http://localhost:8080/photos/e89edc7b-64eb-45c1-93d6-db1113f11328",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"userId\": \"b8a35b44-d259-4d6d-acfa-65b358bd8b1f\",\n\t\"name\": \"Cristo Redentor\",\n\t\"description\": \"Cristo Redentor\",\n\t\"tags\": [ \"Cristo\", \"Redentor\", \"RJ\", \"Rio de Janeiro\"],\n\t\"base64Image\": \"x64img002\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "UserManagement",
+			"description": "",
+			"item": [
+				{
+					"name": "Create User",
+					"request": {
+						"url": "http://localhost:8080/users",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"almeida.paulorocha@gmail.com\",\n\t\"password\": \"123456mudar\",\n\t\"firstName\": \"Paulo Ricardo\",\n\t\"lastName\": \"Almeida\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve User by UUID",
+					"request": {
+						"url": "http://localhost:8080/users/b8a35b44-d259-4d6d-acfa-65b358bd8b1f",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"almeida.paulorocha@gmail.com\",\n\t\"password\": \"123456mudar\",\n\t\"firstName\": \"Paulo Ricardo\",\n\t\"lastName\": \"Almeida\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve All Users",
+					"request": {
+						"url": "http://localhost:8080/photos",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"userId\": \"b8a35b44-d259-4d6d-acfa-65b358bd8b1f\",\n\t\"password\": \"123456mudar\",\n\t\"firstName\": \"Paulo Ricardo\",\n\t\"lastName\": \"Almeida\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

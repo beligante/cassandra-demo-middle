@@ -16,6 +16,7 @@ import almeida.rochapaulo.demo.accessors.UserProfileAccessor;
 import almeida.rochapaulo.demo.api.requests.CreateUser;
 import almeida.rochapaulo.demo.entities.UserCredential;
 import almeida.rochapaulo.demo.entities.UserProfile;
+import almeida.rochapaulo.demo.service.exceptions.EntityAlreadyExists;
 
 public class UserManagement {
 
@@ -35,8 +36,11 @@ public class UserManagement {
 	
 	public UserProfile createUser(CreateUser createUser) throws Exception {
 		
-		BatchStatement batch = new BatchStatement();
+		if (credentialMapper.get(createUser.getEmail()) != null) {
+			throw new EntityAlreadyExists();
+		}
 		
+		BatchStatement batch = new BatchStatement();
 		UUID userID = UUID.randomUUID();
 		
 		UserProfile profile = new UserProfile();

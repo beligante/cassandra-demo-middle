@@ -71,6 +71,10 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>cassandra-maven-plugin</artifactId>
 				<version>3.5</version>
+				<configuration>
+					<cqlVersion>3.0.0</cqlVersion>
+					<startNativeTransport>true</startNativeTransport>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

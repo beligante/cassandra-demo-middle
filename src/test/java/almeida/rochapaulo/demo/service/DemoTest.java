@@ -19,6 +19,8 @@ import org.springframework.context.ApplicationContext;
 import almeida.rochapaulo.demo.Bootstrap;
 import almeida.rochapaulo.demo.api.requests.CreatePhoto;
 import almeida.rochapaulo.demo.api.requests.CreateUser;
+import almeida.rochapaulo.demo.dao.PhotoDAO;
+import almeida.rochapaulo.demo.dao.UserDAO;
 
 @Ignore
 public class DemoTest {
@@ -28,7 +30,7 @@ public class DemoTest {
 	
 		ApplicationContext ctx = SpringApplication.run(Bootstrap.class);
 		
-		UserManagement service = ctx.getBean(UserManagement.class);
+		UserDAO service = ctx.getBean(UserDAO.class);
 		UUID userId = null;
 		{
 			CreateUser request = new CreateUser();
@@ -40,7 +42,7 @@ public class DemoTest {
 			userId = service.createUser(request).getUserId();
 		}
 		
-		PhotoService photoService = ctx.getBean(PhotoService.class);
+		PhotoDAO photoService = ctx.getBean(PhotoDAO.class);
 		{
 			CreatePhoto request = new CreatePhoto();
 			request.setName("CN Tower");

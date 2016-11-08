@@ -1,4 +1,4 @@
-package almeida.rochapaulo.demo.service;
+package almeida.rochapaulo.demo.dao;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -13,13 +13,13 @@ import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.MappingManager;
 import com.datastax.driver.mapping.Result;
 
-import almeida.rochapaulo.demo.accessors.PhotosAccessor;
 import almeida.rochapaulo.demo.api.requests.CreatePhoto;
+import almeida.rochapaulo.demo.dao.accessor.PhotosAccessor;
 import almeida.rochapaulo.demo.entities.LatestPhotos;
 import almeida.rochapaulo.demo.entities.Photo;
 import almeida.rochapaulo.demo.entities.PhotosByUserID;
 
-public class PhotoService {
+public class PhotoDAO {
 
 	private final MappingManager manager;
 	private final Mapper<Photo> photoMapper;
@@ -29,7 +29,7 @@ public class PhotoService {
 	private final SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");
 	
 	@Autowired
-	public PhotoService(MappingManager manager) {
+	public PhotoDAO(MappingManager manager) {
 		this.manager = manager;
 		photoMapper = manager.mapper(Photo.class);
 		latestPhotoMapper = manager.mapper(LatestPhotos.class);

@@ -1,4 +1,4 @@
-package almeida.rochapaulo.demo.accessors;
+package almeida.rochapaulo.demo.dao.accessor;
 
 import com.datastax.driver.mapping.Result;
 import com.datastax.driver.mapping.annotations.Accessor;

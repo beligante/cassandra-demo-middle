@@ -20,17 +20,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import almeida.rochapaulo.demo.api.requests.CreateUser;
+import almeida.rochapaulo.demo.dao.UserDAO;
 import almeida.rochapaulo.demo.entities.UserProfile;
-import almeida.rochapaulo.demo.service.UserManagement;
 import almeida.rochapaulo.demo.service.exceptions.EntityAlreadyExists;
 
 @RestController
 public class UserManagementRS {
 
-	private final UserManagement service;
+	private final UserDAO service;
 	
 	@Autowired
-	public UserManagementRS(UserManagement service) {
+	public UserManagementRS(UserDAO service) {
 		this.service = service;
 	}
 	

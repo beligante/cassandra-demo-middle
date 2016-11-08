@@ -1,4 +1,4 @@
-package almeida.rochapaulo.demo.service;
+package almeida.rochapaulo.demo.dao;
 
 import java.util.Date;
 import java.util.List;
@@ -12,13 +12,14 @@ import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.MappingManager;
 import com.datastax.driver.mapping.Result;
 
-import almeida.rochapaulo.demo.accessors.UserProfileAccessor;
 import almeida.rochapaulo.demo.api.requests.CreateUser;
+import almeida.rochapaulo.demo.dao.accessor.UserProfileAccessor;
 import almeida.rochapaulo.demo.entities.UserCredential;
 import almeida.rochapaulo.demo.entities.UserProfile;
+import almeida.rochapaulo.demo.service.Hasher;
 import almeida.rochapaulo.demo.service.exceptions.EntityAlreadyExists;
 
-public class UserManagement {
+public class UserDAO {
 
 	private final Hasher hasher = Hasher.instance();
 	private final MappingManager manager;
@@ -27,7 +28,7 @@ public class UserManagement {
 	private final UserProfileAccessor profilesAccessor;
 	
 	@Autowired
-	public UserManagement(MappingManager manager) {
+	public UserDAO(MappingManager manager) {
 		this.manager = manager;
 		profileMapper = manager.mapper(UserProfile.class);
 		credentialMapper = manager.mapper(UserCredential.class);

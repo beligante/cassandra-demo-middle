@@ -13,17 +13,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import almeida.rochapaulo.demo.api.requests.CreatePhoto;
+import almeida.rochapaulo.demo.dao.PhotoDAO;
 import almeida.rochapaulo.demo.entities.Photo;
 import almeida.rochapaulo.demo.entities.PhotosByUserID;
-import almeida.rochapaulo.demo.service.PhotoService;
 
 @RestController
 public class PhotoRS {
 
-	private final PhotoService photoService;
+	private final PhotoDAO photoService;
 
 	@Autowired
-	public PhotoRS(PhotoService photoService) {
+	public PhotoRS(PhotoDAO photoService) {
 		this.photoService = photoService;
 	}
 	

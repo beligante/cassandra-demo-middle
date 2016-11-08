@@ -1,4 +1,4 @@
-package almeida.rochapaulo.demo.accessors;
+package almeida.rochapaulo.demo.dao.accessor;
 
 import java.util.UUID;
 

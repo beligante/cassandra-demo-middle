@@ -55,6 +55,22 @@ public class PhotoRS {
 		return ResponseEntity.ok(photos);
 	}
 	
+	@RequestMapping(path = "/photos/{photoId}", method = RequestMethod.GET, produces = "application/json")
+	public ResponseEntity<?> getPhoto(@PathVariable String photoId) {
+		final Photo photo = photoService.findPhotoById(UUID.fromString(photoId));
+		if (photo == null) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		ImageMetadata meta = new ImageMetadata();
+		meta.setDescription(photo.getDescription());
+		meta.setName(photo.getName());
+		meta.setUser(photo.getUserId().toString());
+		meta.setLocation("/image/" + photo.getUuid());
+		
+		return ResponseEntity.ok(meta);
+	}
+	
 	@RequestMapping(path = "/photos/user/{userId}", method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<?> getPhotos(@PathVariable String userId) {
 		final List<PhotosByUserID> photos = photoService.findPhotosByUserId(UUID.fromString(userId));
@@ -64,13 +80,4 @@ public class PhotoRS {
 		return ResponseEntity.ok(photos);
 	}
 	
-	@RequestMapping(path = "/photos/{photoId}", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<?> getPhoto(@PathVariable String photoId) {
-		final Photo photo = photoService.findPhotoById(UUID.fromString(photoId));
-		if (photo == null) {
-			return ResponseEntity.notFound().build();
-		}
-		return ResponseEntity.ok(photo);
-	}
-
 }

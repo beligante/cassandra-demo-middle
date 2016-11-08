@@ -1,5 +1,7 @@
 package almeida.rochapaulo.demo.api;
 
+import static java.util.stream.Collectors.toList;
+
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import almeida.rochapaulo.demo.api.requests.CreatePhoto;
+import almeida.rochapaulo.demo.api.responses.ImageMetadata;
 import almeida.rochapaulo.demo.dao.PhotoDAO;
 import almeida.rochapaulo.demo.entities.Photo;
 import almeida.rochapaulo.demo.entities.PhotosByUserID;
@@ -35,7 +38,17 @@ public class PhotoRS {
 	
 	@RequestMapping(path = "/photos", method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<?> getPhotos() {
-		final List<Photo> photos = photoService.getAllPhotos();
+		final List<ImageMetadata> photos = 
+			photoService.getAllPhotos().parallelStream().map(p -> {
+				ImageMetadata meta = new ImageMetadata();
+				meta.setDescription(p.getDescription());
+				meta.setName(p.getName());
+				meta.setUser(p.getUserId().toString());
+				meta.setLocation("/image/" + p.getUuid());
+				return meta;
+			}).collect(toList());
+		
+		
 		if (photos.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}

@@ -8,6 +8,7 @@ import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.mapping.MappingManager;
 
+import almeida.rochapaulo.demo.dao.ImageDAO;
 import almeida.rochapaulo.demo.dao.PhotoDAO;
 import almeida.rochapaulo.demo.dao.UserDAO;
 
@@ -30,13 +31,18 @@ public class Bootstrap {
 	}
 	
 	@Bean
-	public UserDAO userManagement(MappingManager manager) {
+	public UserDAO userDAO(MappingManager manager) {
 		return new UserDAO(manager);
 	}
 	
 	@Bean
-	public PhotoDAO photoService(MappingManager manager) {
+	public PhotoDAO photoDAO(MappingManager manager) {
 		return new PhotoDAO(manager);
+	}
+	
+	@Bean
+	public ImageDAO imageDAO(MappingManager manager) {
+		return new ImageDAO(manager);
 	}
 	
 }

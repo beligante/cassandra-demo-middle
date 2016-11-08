@@ -19,17 +19,21 @@ CREATE TABLE demo.photos (
 	user_id uuid,
 	name text,
 	description text,
-	location text,
+	bytes blob,
 	tags set<text>,
 	added_date timestamp,
 	PRIMARY KEY (photo_id));
 	
+CREATE TABLE demo.thumbnail (
+	photo_id uuid,
+	bytes blob,
+	PRIMARY KEY (photo_id));
+
 CREATE TABLE demo.photos_by_user_id (
 	user_id uuid,
 	added_date timestamp,
 	photo_id uuid,
 	photo_name text,
-	location text,
 	PRIMARY KEY (user_id, added_date, photo_id));
 	
 CREATE TABLE demo.latest_photos (
@@ -44,5 +48,3 @@ CREATE TABLE demo.photo_rank (
 	stars varchar,
 	votes counter,
 	PRIMARY KEY(stars, photo_id));
-
-	

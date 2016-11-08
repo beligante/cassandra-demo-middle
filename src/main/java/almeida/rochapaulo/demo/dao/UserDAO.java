@@ -6,8 +6,6 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.datastax.driver.core.BatchStatement;
-import com.datastax.driver.core.Session;
 import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.MappingManager;
 import com.datastax.driver.mapping.Result;
@@ -22,14 +20,12 @@ import almeida.rochapaulo.demo.service.exceptions.EntityAlreadyExists;
 public class UserDAO {
 
 	private final Hasher hasher = Hasher.instance();
-	private final MappingManager manager;
 	private final Mapper<UserProfile> profileMapper;
 	private final Mapper<UserCredential> credentialMapper;
 	private final UserProfileAccessor profilesAccessor;
 	
 	@Autowired
 	public UserDAO(MappingManager manager) {
-		this.manager = manager;
 		profileMapper = manager.mapper(UserProfile.class);
 		credentialMapper = manager.mapper(UserCredential.class);
 		profilesAccessor = manager.createAccessor(UserProfileAccessor.class);
@@ -41,7 +37,6 @@ public class UserDAO {
 			throw new EntityAlreadyExists();
 		}
 		
-		BatchStatement batch = new BatchStatement();
 		UUID userID = UUID.randomUUID();
 		
 		UserProfile profile = new UserProfile();
@@ -56,12 +51,9 @@ public class UserDAO {
 		credential.setEmail(createUser.getEmail());
 		credential.setPassword(hasher.hash(createUser.getPassword()));
 		
-		batch.add(profileMapper.saveQuery(profile));
-		batch.add(credentialMapper.saveQuery(credential));
+		profileMapper.save(profile);
+		credentialMapper.save(credential);
 	
-		Session session = manager.getSession();
-		session.execute(batch);
-		
 		return profile;
 	}
 

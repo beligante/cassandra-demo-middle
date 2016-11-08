@@ -23,3 +23,4 @@ $ mvn spring-boot:run
 ```
 
 ### API (REST: Postman Collection)
+* /postman/CassandraDemo_v2.postman_collection

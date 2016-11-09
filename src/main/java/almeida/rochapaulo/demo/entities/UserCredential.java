@@ -10,20 +10,25 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * 
+ * @author rochapaulo
+ *
+ */
 @Data
 @Table(name = "user_credentials")
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserCredential {
 
-	@Column(name = "user_id")
-	private UUID userId;
-	
-	@Column(name = "password")
-	private String password;
-	
-	@PartitionKey
-	@Column(name = "email")
-	private String email;
-	
+    @Column(name = "user_id")
+    private UUID userId;
+
+    @Column(name = "password")
+    private String password;
+
+    @PartitionKey
+    @Column(name = "email")
+    private String email;
+
 }

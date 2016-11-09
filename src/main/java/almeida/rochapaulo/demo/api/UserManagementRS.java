@@ -26,69 +26,70 @@ import almeida.rochapaulo.demo.entities.UserProfile;
 import almeida.rochapaulo.demo.service.UserManagement;
 import almeida.rochapaulo.demo.service.exceptions.EntityAlreadyExists;
 
+/**
+ * 
+ * @author rochapaulo
+ *
+ */
 @RestController
 public class UserManagementRS {
 
-	private final UserManagement service;
-	private final QueryFactory queryFactory;
-	
-	@Autowired
-	public UserManagementRS(UserManagement service, QueryFactory queryFactory) {
-		this.service = service;
-		this.queryFactory = queryFactory;
-	}
-	
-	@RequestMapping(path = "/users", method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<?> createUser(@RequestBody CreateUserRequest request) throws Exception {
+    private final UserManagement service;
+    private final QueryFactory queryFactory;
 
-		try {
-			
-			CreateUserResponse profileCreated = service.createUser(request).get();
-			URI resourceLocation = new URI("/users/" + profileCreated.getUserId());
-			
-			return ResponseEntity.created(resourceLocation).build();
-			
-		} catch (EntityAlreadyExists ex) {
-			
-			String message = "user email " + request.getEmail() + " already exists";
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(message);
-		}
-		
-	}
-	
-	@RequestMapping(path = "/users/{userId}", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<?> getUserProfile(@PathVariable String userId) throws Exception {
-		
-		List<UserProfile> profile = service.findProfileBy(queryFactory.profileByUUID(UUID.fromString(userId))).get();
-		
-		if (profile == null) {
-			return ResponseEntity.notFound().build();
-		}
-		
-		return ResponseEntity.ok(profile);
-	}
-	
-	@RequestMapping(path = "/users", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<?> getUsersProfile(
-			@RequestParam(name = "firstName", required = false) String firstName,
-			@RequestParam(name = "lastName", required = false) String lastName,
-			@RequestParam(name = "email", required = false) String email
-	) throws Exception {
-		
-		List<UserProfile> profiles = 
-				service.findProfileBy(queryFactory.allProfiles())
-					.get()
-					.parallelStream()
-						.filter(byFirstName(firstName))
-						.filter(byLastname(lastName))
-						.filter(byEmail(email))
-					.collect(toList());
-		
-		if (profiles.isEmpty()) {
-			return ResponseEntity.notFound().build();
-		}
-		
-		return ResponseEntity.ok(profiles);
-	}
+    @Autowired
+    public UserManagementRS(UserManagement service, QueryFactory queryFactory) {
+        this.service = service;
+        this.queryFactory = queryFactory;
+    }
+
+    @RequestMapping(path = "/users", method = RequestMethod.POST, consumes = "application/json")
+    public ResponseEntity<?> createUser(@RequestBody CreateUserRequest request) throws Exception {
+
+        try {
+
+            CreateUserResponse profileCreated = service.createUser(request).get();
+            URI resourceLocation = new URI("/users/" + profileCreated.getUserId());
+
+            return ResponseEntity.created(resourceLocation).build();
+
+        } catch (EntityAlreadyExists ex) {
+
+            String message = "user email " + request.getEmail() + " already exists";
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(message);
+        }
+
+    }
+
+    @RequestMapping(path = "/users/{userId}", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<?> getUserProfile(@PathVariable String userId) throws Exception {
+
+        List<UserProfile> profile = service.findProfileBy(queryFactory.profileByUUID(UUID.fromString(userId))).get();
+
+        if (profile == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(profile);
+    }
+
+    @RequestMapping(path = "/users", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<?> getUsersProfile(@RequestParam(name = "firstName", required = false) String firstName,
+            @RequestParam(name = "lastName", required = false) String lastName,
+            @RequestParam(name = "email", required = false) String email) throws Exception {
+
+        List<UserProfile> profiles = 
+            service
+                .findProfileBy(queryFactory.allProfiles())
+                .get()
+                .parallelStream()
+                .filter(byFirstName(firstName)).filter(byLastname(lastName)).filter(byEmail(email)).collect(toList());
+
+        if (profiles.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(profiles);
+    }
 
 }

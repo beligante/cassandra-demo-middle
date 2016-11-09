@@ -11,29 +11,35 @@ import com.datastax.driver.mapping.MappingManager;
 import almeida.rochapaulo.demo.entities.Photo;
 import almeida.rochapaulo.demo.entities.Thumbnail;
 
+/**
+ * 
+ * @author rochapaulo
+ *
+ */
 public class ImageDAO {
 
-	private final Mapper<Photo> photoMapper;
-	private final Mapper<Thumbnail> thumbnailMapper;
-	
-	@Autowired
-	public ImageDAO(MappingManager manager) {
-		photoMapper = manager.mapper(Photo.class);
-		thumbnailMapper = manager.mapper(Thumbnail.class);
-	}
+    private final Mapper<Photo> photoMapper;
+    private final Mapper<Thumbnail> thumbnailMapper;
 
-	public byte[] getThumbnail(String uuid) {
-		
-		final Thumbnail photo = thumbnailMapper.get(UUID.fromString(uuid));
-		final ByteBuffer buff = photo.getBytes();
-		return buff.array();
-	}
-	
-	public byte[] getImage(String uuid) {
-		
-		final Photo photo = photoMapper.get(UUID.fromString(uuid));
-		final ByteBuffer buff = photo.getBytes();
-		return buff.array();
-	}
-	
+    @Autowired
+    public ImageDAO(MappingManager manager) {
+        
+        photoMapper = manager.mapper(Photo.class);
+        thumbnailMapper = manager.mapper(Thumbnail.class);
+    }
+
+    public byte[] getThumbnail(String uuid) {
+
+        final Thumbnail photo = thumbnailMapper.get(UUID.fromString(uuid));
+        final ByteBuffer buff = photo.getBytes();
+        return buff.array();
+    }
+
+    public byte[] getImage(String uuid) {
+
+        final Photo photo = photoMapper.get(UUID.fromString(uuid));
+        final ByteBuffer buff = photo.getBytes();
+        return buff.array();
+    }
+
 }

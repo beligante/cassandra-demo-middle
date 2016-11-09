@@ -27,76 +27,80 @@ import almeida.rochapaulo.demo.service.exceptions.EntityAlreadyExists;
  */
 public class UserManagement {
 
-	private final PasswordHash passwordHash = PasswordHash.instance();
-	private final Mapper<UserProfile> profileMapper;
-	private final Mapper<UserCredential> credentialMapper;
-	
-	@Autowired
-	public UserManagement(MappingManager manager) {
-		profileMapper = manager.mapper(UserProfile.class);
-		credentialMapper = manager.mapper(UserCredential.class);
-	}
-	
-	/**
-	 * 
-	 * @param request
-	 * @return
-	 */
-	public CompletableFuture<CreateUserResponse> createUser(CreateUserRequest request) {
+    private final PasswordHash passwordHash = PasswordHash.instance();
+    private final Mapper<UserProfile> profileMapper;
+    private final Mapper<UserCredential> credentialMapper;
 
-		return CompletableFuture.supplyAsync(() -> {
-			
-			if (credentialMapper.get(request.getEmail()) != null) {
-				throw new EntityAlreadyExists("User with email=" + request.getEmail() + " already exists");
-			}
-			
-			final UUID uuid = UUID.randomUUID();
-			final String hashedPassword = passwordHash.create(request.getPassword());
-			final Date now = new Date();
-			
-			UserProfile profile = new UserProfile(uuid, request.getFirstName(), request.getLastName(), request.getEmail(), now);
-			UserCredential credential = new UserCredential(uuid, hashedPassword, request.getEmail());
-			
-			profileMapper.save(profile);
-			credentialMapper.save(credential);
-			
-			return CreateUserResponse.builder()
-						.email(request.getEmail())
-						.firstName(request.getFirstName())
-						.lastName(request.getLastName())
-						.userId(uuid)
-						.since(now)
-						.build();
-		});
-	}
-	
-	/**
-	 * 
-	 * @param request
-	 * @throws AuthException
-	 * @return
-	 */
-	public CompletableFuture<VerifyCredentialsResponse> verifyCredentials(VerifyCredentialsRequest request) throws AuthException {
-		
-		return CompletableFuture.supplyAsync(() -> {
-			
-			UserCredential credentials = credentialMapper.get(request.getEmail());
-			boolean validated = passwordHash.validate(request.getPassword(), credentials.getPassword());
-			
-			if (validated) {
-				return new VerifyCredentialsResponse(credentials.getUserId());
-			}
-			throw new AuthException();
-		});
-	}
-	
-	/**
-	 * 
-	 * @param query
-	 * @return
-	 */
-	public CompletableFuture<List<UserProfile>> findProfileBy(ProfileQuery query) {
-		return query.execute();
-	}
-	
+    @Autowired
+    public UserManagement(MappingManager manager) {
+        
+        profileMapper = manager.mapper(UserProfile.class);
+        credentialMapper = manager.mapper(UserCredential.class);
+    }
+
+    /**
+     * 
+     * @param request
+     * @return
+     */
+    public CompletableFuture<CreateUserResponse> createUser(CreateUserRequest request) {
+
+        return CompletableFuture.supplyAsync(() -> {
+
+            if (credentialMapper.get(request.getEmail()) != null) {
+                throw new EntityAlreadyExists("User with email=" + request.getEmail() + " already exists");
+            }
+
+            final UUID uuid = UUID.randomUUID();
+            final String hashedPassword = passwordHash.create(request.getPassword());
+            final Date now = new Date();
+
+            UserProfile profile = new UserProfile(uuid, request.getFirstName(), request.getLastName(),
+                    request.getEmail(), now);
+            UserCredential credential = new UserCredential(uuid, hashedPassword, request.getEmail());
+
+            profileMapper.save(profile);
+            credentialMapper.save(credential);
+
+            return CreateUserResponse.builder()
+                        .email(request.getEmail())
+                        .firstName(request.getFirstName())
+                        .lastName(request.getLastName())
+                        .userId(uuid)
+                        .since(now)
+                        .build();
+        });
+    }
+
+    /**
+     * 
+     * @param request
+     * @throws AuthException
+     * @return
+     */
+    public CompletableFuture<VerifyCredentialsResponse> verifyCredentials(VerifyCredentialsRequest request)
+            throws AuthException {
+
+        return CompletableFuture.supplyAsync(() -> {
+
+            UserCredential credentials = credentialMapper.get(request.getEmail());
+            boolean validated = passwordHash.validate(request.getPassword(), credentials.getPassword());
+
+            if (validated) {
+                return new VerifyCredentialsResponse(credentials.getUserId());
+            }
+            
+            throw new AuthException();
+        });
+    }
+
+    /**
+     * 
+     * @param query
+     * @return
+     */
+    public CompletableFuture<List<UserProfile>> findProfileBy(ProfileQuery query) {
+        return query.execute();
+    }
+
 }

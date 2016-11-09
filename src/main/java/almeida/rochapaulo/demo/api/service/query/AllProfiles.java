@@ -15,16 +15,17 @@ import almeida.rochapaulo.demo.entities.UserProfile;
  */
 public class AllProfiles implements ProfileQuery {
 
-	private final UserProfileAccessor accessor;
-	
-	public AllProfiles(MappingManager manager) {
-		accessor = manager.createAccessor(UserProfileAccessor.class);
-	}
-	
-	@Override
-	public CompletableFuture<List<UserProfile>> execute() {
+    private final UserProfileAccessor accessor;
 
-		return CompletableFuture.supplyAsync(() -> accessor.getAll().all());
-	}
+    public AllProfiles(MappingManager manager) {
+        
+        accessor = manager.createAccessor(UserProfileAccessor.class);
+    }
+
+    @Override
+    public CompletableFuture<List<UserProfile>> execute() {
+
+        return CompletableFuture.supplyAsync(() -> accessor.getAll().all());
+    }
 
 }

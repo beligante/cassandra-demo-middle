@@ -13,18 +13,19 @@ import com.datastax.driver.mapping.MappingManager;
  */
 public class QueryFactory {
 
-	private MappingManager manager;
-	
-	@Autowired
-	public QueryFactory(MappingManager manager) {
-		this.manager = manager;
-	}
-	
-	public ProfileQuery profileByUUID(UUID userUUID) {
-		return new ProfileByUserID(manager, userUUID);
-	}
-	
-	public ProfileQuery allProfiles() {
-		return new AllProfiles(manager);
-	}
+    private final MappingManager manager;
+
+    @Autowired
+    public QueryFactory(MappingManager manager) {
+        
+        this.manager = manager;
+    }
+
+    public ProfileQuery profileByUUID(UUID userUUID) {
+        return new ProfileByUserID(manager, userUUID);
+    }
+
+    public ProfileQuery allProfiles() {
+        return new AllProfiles(manager);
+    }
 }

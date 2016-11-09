@@ -10,30 +10,35 @@ import org.springframework.web.bind.annotation.RestController;
 
 import almeida.rochapaulo.demo.dao.ImageDAO;
 
+/**
+ * 
+ * @author rochapaulo
+ *
+ */
 @RestController
 public class ImageRS {
 
-	private final ImageDAO dao;
-	
-	@Autowired
-	public ImageRS(ImageDAO dao) {
-		this.dao = dao;
-	}
-	
-	@RequestMapping(path = "/image/{uuid}", method = RequestMethod.GET, produces = "image/*")
-	public ResponseEntity<?> getThumbnail(
-			@PathVariable String uuid, 
-			@RequestParam(name = "thumbnail", required = false) boolean thumbnail
-	) {
-		
-		final byte[] image;
-		if (thumbnail) {
-			image = dao.getThumbnail(uuid); 
-		} else {
-			image = dao.getImage(uuid);
-		}
-		
-		return ResponseEntity.ok().body(image);
-	}
-	
+    private final ImageDAO dao;
+
+    @Autowired
+    public ImageRS(ImageDAO dao) {
+        this.dao = dao;
+    }
+
+    @RequestMapping(path = "/image/{uuid}", method = RequestMethod.GET, produces = "image/*")
+    public ResponseEntity<?> getThumbnail(
+            @PathVariable String uuid,
+            @RequestParam(name = "thumbnail", required = false) boolean thumbnail
+    ) {
+
+        final byte[] image;
+        if (thumbnail) {
+            image = dao.getThumbnail(uuid);
+        } else {
+            image = dao.getImage(uuid);
+        }
+
+        return ResponseEntity.ok().body(image);
+    }
+
 }

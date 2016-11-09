@@ -10,23 +10,28 @@ import com.datastax.driver.mapping.annotations.Table;
 
 import lombok.Data;
 
+/**
+ * 
+ * @author rochapaulo
+ *
+ */
 @Data
 @Table(name = "latest_photos")
 public class LatestPhotos {
 
-	@PartitionKey
-	@Column(name = "ddmmyyyy")
-	private String ddMMyyyy;
-	
-	@ClusteringColumn(value = 0)
-	@Column(name = "added_date")
-	private Date addedDate;
-	
-	@ClusteringColumn(value = 1)
-	@Column(name = "photo_id")
-	private UUID photoId;
-	
-	@Column(name = "photo_name")
-	private String photoName;
-	
+    @PartitionKey
+    @Column(name = "ddmmyyyy")
+    private String ddMMyyyy;
+
+    @ClusteringColumn(value = 0)
+    @Column(name = "added_date")
+    private Date addedDate;
+
+    @ClusteringColumn(value = 1)
+    @Column(name = "photo_id")
+    private UUID photoId;
+
+    @Column(name = "photo_name")
+    private String photoName;
+
 }

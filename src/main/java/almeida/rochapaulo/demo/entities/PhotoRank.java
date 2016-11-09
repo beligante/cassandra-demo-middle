@@ -9,19 +9,24 @@ import com.datastax.driver.mapping.annotations.Table;
 
 import lombok.Data;
 
+/**
+ * 
+ * @author rochapaulo
+ *
+ */
 @Data
 @Table(name = "photo_rank")
 public class PhotoRank {
 
-	@ClusteringColumn
-	@Column(name = "photo_id")
-	private UUID photoId;
+    @ClusteringColumn
+    @Column(name = "photo_id")
+    private UUID photoId;
 
-	@PartitionKey
-	@Column(name = "stars")
-	private int stars = 0;
+    @PartitionKey
+    @Column(name = "stars")
+    private int stars = 0;
 
-	@Column(name = "votes")
-	private long votes = 0;
+    @Column(name = "votes")
+    private long votes = 0;
 
 }

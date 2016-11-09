@@ -12,6 +12,6 @@ import almeida.rochapaulo.demo.entities.UserProfile;
  */
 public interface ProfileQuery {
 
-	CompletableFuture<List<UserProfile>> execute();
-	
+    CompletableFuture<List<UserProfile>> execute();
+
 }

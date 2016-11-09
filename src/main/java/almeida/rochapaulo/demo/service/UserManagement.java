@@ -11,9 +11,9 @@ import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.MappingManager;
 
 import almeida.rochapaulo.demo.api.requests.CreateUserRequest;
-import almeida.rochapaulo.demo.api.requests.VerifyCredentialsRequest;
+import almeida.rochapaulo.demo.api.requests.AuthRequest;
 import almeida.rochapaulo.demo.api.responses.CreateUserResponse;
-import almeida.rochapaulo.demo.api.responses.VerifyCredentialsResponse;
+import almeida.rochapaulo.demo.api.responses.AuthResponse;
 import almeida.rochapaulo.demo.api.service.query.ProfileQuery;
 import almeida.rochapaulo.demo.entities.UserCredential;
 import almeida.rochapaulo.demo.entities.UserProfile;
@@ -78,7 +78,7 @@ public class UserManagement {
      * @throws AuthException
      * @return
      */
-    public CompletableFuture<VerifyCredentialsResponse> verifyCredentials(VerifyCredentialsRequest request)
+    public CompletableFuture<AuthResponse> verifyCredentials(AuthRequest request)
             throws AuthException {
 
         return CompletableFuture.supplyAsync(() -> {
@@ -87,7 +87,7 @@ public class UserManagement {
             boolean validated = passwordHash.validate(request.getPassword(), credentials.getPassword());
 
             if (validated) {
-                return new VerifyCredentialsResponse(credentials.getUserId());
+                return new AuthResponse(credentials.getUserId());
             }
             
             throw new AuthException();

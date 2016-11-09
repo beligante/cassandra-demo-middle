@@ -12,7 +12,7 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
-public class VerifyCredentialsResponse {
+public class AuthResponse {
 
     private final UUID userId;
 }

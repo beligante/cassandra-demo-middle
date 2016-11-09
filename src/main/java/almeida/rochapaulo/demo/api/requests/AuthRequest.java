@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @NoArgsConstructor
-public class VerifyCredentialsRequest {
+public class AuthRequest {
 
     private String email;
     private String password;

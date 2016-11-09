@@ -1,4 +1,4 @@
-package almeida.rochapaulo.demo.dao;
+package almeida.rochapaulo.demo.bucket;
 
 import java.nio.ByteBuffer;
 import java.util.UUID;

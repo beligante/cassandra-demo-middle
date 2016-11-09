@@ -9,7 +9,7 @@ import com.datastax.driver.core.Session;
 import com.datastax.driver.mapping.MappingManager;
 
 import almeida.rochapaulo.demo.api.service.query.QueryFactory;
-import almeida.rochapaulo.demo.dao.BucketRepository;
+import almeida.rochapaulo.demo.bucket.BucketRepository;
 import almeida.rochapaulo.demo.service.PhotoService;
 import almeida.rochapaulo.demo.service.UserManagement;
 

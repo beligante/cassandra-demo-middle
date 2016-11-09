@@ -1,5 +1,6 @@
 package almeida.rochapaulo.demo.entities;
 
+import java.util.Date;
 import java.util.UUID;
 
 import com.datastax.driver.mapping.annotations.ClusteringColumn;
@@ -15,18 +16,22 @@ import lombok.Data;
  *
  */
 @Data
-@Table(name = "photo_rank")
-public class PhotoRank {
+@Table(name = "photos_by_user_id")
+public class PhotosLookupByUserID {
 
-    @ClusteringColumn
+    @PartitionKey
+    @Column(name = "user_id")
+    private UUID userId;
+
+    @ClusteringColumn(value = 0)
+    @Column(name = "added_date")
+    private Date addedDate;
+
+    @ClusteringColumn(value = 1)
     @Column(name = "photo_id")
     private UUID photoId;
 
-    @PartitionKey
-    @Column(name = "stars")
-    private int stars = 0;
-
-    @Column(name = "votes")
-    private long votes = 0;
+    @Column(name = "photo_name")
+    private String photoName;
 
 }

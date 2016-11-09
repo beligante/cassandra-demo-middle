@@ -14,11 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import almeida.rochapaulo.demo.api.requests.CreatePhoto;
-import almeida.rochapaulo.demo.api.responses.ImageMetadata;
-import almeida.rochapaulo.demo.dao.PhotoDAO;
+import almeida.rochapaulo.demo.api.requests.CreatePhotoRequest;
+import almeida.rochapaulo.demo.api.responses.CreatePhotoResponse;
+import almeida.rochapaulo.demo.api.responses.PhotoMetadata;
+import almeida.rochapaulo.demo.api.service.query.QueryFactory;
 import almeida.rochapaulo.demo.entities.Photo;
-import almeida.rochapaulo.demo.entities.PhotosByUserID;
+import almeida.rochapaulo.demo.service.PhotoService;
 
 /**
  * 
@@ -28,28 +29,30 @@ import almeida.rochapaulo.demo.entities.PhotosByUserID;
 @RestController
 public class PhotoRS {
 
-    private final PhotoDAO photoService;
+    private final QueryFactory queryFactory;
+    private final PhotoService photoService;
 
     @Autowired
-    public PhotoRS(PhotoDAO photoService) {
+    public PhotoRS(PhotoService photoService, QueryFactory queryFactory) {
         this.photoService = photoService;
+        this.queryFactory = queryFactory;
     }
 
     @RequestMapping(path = "/photos", method = RequestMethod.POST, consumes = "application/json")
-    public ResponseEntity<?> upload(@RequestBody CreatePhoto request) throws Exception {
-        Photo photo = photoService.save(request);
-        return ResponseEntity.created(new URI("/photos/" + photo.getUuid())).build();
+    public ResponseEntity<?> upload(@RequestBody CreatePhotoRequest request) throws Exception {
+        CreatePhotoResponse created = photoService.upload(request).get();
+        return ResponseEntity.created(new URI("/photos/" + created.getPhotoUUID())).build();
     }
 
     @RequestMapping(path = "/photos", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<?> getPhotos() {
+    public ResponseEntity<?> getPhotos() throws Exception {
         
-        final List<ImageMetadata> photos = 
-            photoService
-                .getAllPhotos()
+        final List<PhotoMetadata> photos = 
+            photoService.findPhotosBy(null)
+                .get()
                 .parallelStream()
                 .map(p -> {
-                    ImageMetadata meta = new ImageMetadata();
+                    PhotoMetadata meta = new PhotoMetadata();
                     meta.setDescription(p.getDescription());
                     meta.setName(p.getName());
                     meta.setUser(p.getUserId().toString());
@@ -65,14 +68,15 @@ public class PhotoRS {
     }
 
     @RequestMapping(path = "/photos/{photoId}", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<?> getPhoto(@PathVariable String photoId) {
+    public ResponseEntity<?> getPhoto(@PathVariable String photoId) throws Exception {
         
-        final Photo photo = photoService.findPhotoById(UUID.fromString(photoId));
-        if (photo == null) {
+        final List<Photo> photos = photoService.findPhotosBy(queryFactory.photoByUUID(UUID.fromString(photoId))).get();
+        if (photos.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
-        ImageMetadata meta = new ImageMetadata();
+        Photo photo = photos.get(0);
+        PhotoMetadata meta = new PhotoMetadata();
         meta.setDescription(photo.getDescription());
         meta.setName(photo.getName());
         meta.setUser(photo.getUserId().toString());
@@ -82,9 +86,9 @@ public class PhotoRS {
     }
 
     @RequestMapping(path = "/photos/user/{userId}", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<?> getPhotos(@PathVariable String userId) {
+    public ResponseEntity<?> getPhotos(@PathVariable String userId) throws Exception {
         
-        final List<PhotosByUserID> photos = photoService.findPhotosByUserId(UUID.fromString(userId));
+        final List<Photo> photos = photoService.findPhotosBy(queryFactory.photosByUserUUID(UUID.fromString(userId))).get();
         if (photos.isEmpty()) {
             return ResponseEntity.notFound().build();
         }

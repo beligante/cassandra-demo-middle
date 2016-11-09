@@ -8,7 +8,7 @@ import lombok.Data;
  *
  */
 @Data
-public class ImageMetadata {
+public class PhotoMetadata {
 
     private String user;
     private String name;

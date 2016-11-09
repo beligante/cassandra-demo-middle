@@ -11,6 +11,7 @@ import com.datastax.driver.mapping.annotations.Table;
 import lombok.Data;
 
 /**
+ * FIXME: Shouldn't it be a materialized view?
  * 
  * @author rochapaulo
  *

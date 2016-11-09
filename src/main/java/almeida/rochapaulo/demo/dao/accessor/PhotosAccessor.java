@@ -8,8 +8,8 @@ import com.datastax.driver.mapping.annotations.Query;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import almeida.rochapaulo.demo.entities.Photo;
-import almeida.rochapaulo.demo.entities.PhotoRank;
-import almeida.rochapaulo.demo.entities.PhotosByUserID;
+import almeida.rochapaulo.demo.entities.PhotoLookupByRank;
+import almeida.rochapaulo.demo.entities.PhotosLookupByUserID;
 
 /**
  * 
@@ -26,12 +26,12 @@ public interface PhotosAccessor {
     ListenableFuture<Result<Photo>> getAllAsync();
 
     @Query("SELECT * FROM photos_by_user_id WHERE user_id = ?")
-    Result<PhotosByUserID> getByUserId(UUID userId);
+    Result<PhotosLookupByUserID> getByUserId(UUID userId);
 
     @Query("UPDATE photo_rank SET votes = votes + 1 WHERE photo_id = ? AND stars = ?")
-    Result<PhotoRank> ratePhoto(UUID photoId, String stars);
+    Result<PhotoLookupByRank> ratePhoto(UUID photoId, String stars);
 
     @Query("UPDATE photo_rank SET votes = votes + 0 WHERE photo_id = ? AND stars = 'UNRATED'")
-    Result<PhotoRank> insertUnrated(UUID photoId);
+    Result<PhotoLookupByRank> insertUnrated(UUID photoId);
 
 }

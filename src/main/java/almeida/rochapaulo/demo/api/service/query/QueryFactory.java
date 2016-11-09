@@ -28,4 +28,13 @@ public class QueryFactory {
     public ProfileQuery allProfiles() {
         return new AllProfiles(manager);
     }
+    
+    public PhotoQuery photoByUUID(UUID photoUUID) {
+        return new PhotoByPhotoID(manager, photoUUID);
+    }
+    
+    public PhotoQuery photosByUserUUID(UUID userUUID) {
+        return new PhotosByUserID(manager, userUUID);
+    }
+    
 }

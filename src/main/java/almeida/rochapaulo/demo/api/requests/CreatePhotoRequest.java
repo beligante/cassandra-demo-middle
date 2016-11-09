@@ -10,7 +10,7 @@ import lombok.Data;
  *
  */
 @Data
-public class CreatePhoto {
+public class CreatePhotoRequest {
 
     private String userId;
     private String name;

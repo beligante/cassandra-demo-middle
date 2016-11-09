@@ -10,7 +10,7 @@ import com.datastax.driver.mapping.MappingManager;
 
 import almeida.rochapaulo.demo.api.service.query.QueryFactory;
 import almeida.rochapaulo.demo.dao.ImageDAO;
-import almeida.rochapaulo.demo.dao.PhotoDAO;
+import almeida.rochapaulo.demo.service.PhotoService;
 import almeida.rochapaulo.demo.service.UserManagement;
 
 /**
@@ -42,8 +42,8 @@ public class Bootstrap {
     }
 
     @Bean
-    public PhotoDAO photoDAO(MappingManager manager) {
-        return new PhotoDAO(manager);
+    public PhotoService photoService(MappingManager manager) {
+        return new PhotoService(manager);
     }
 
     @Bean

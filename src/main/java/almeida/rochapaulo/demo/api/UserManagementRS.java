@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import almeida.rochapaulo.demo.api.requests.CreateUser;
+import almeida.rochapaulo.demo.api.requests.CreateUserRequest;
 import almeida.rochapaulo.demo.dao.UserDAO;
 import almeida.rochapaulo.demo.entities.UserProfile;
 import almeida.rochapaulo.demo.service.exceptions.EntityAlreadyExists;
@@ -35,7 +35,7 @@ public class UserManagementRS {
 	}
 	
 	@RequestMapping(path = "/users", method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<?> createUser(@RequestBody CreateUser request) throws Exception {
+	public ResponseEntity<?> createUser(@RequestBody CreateUserRequest request) throws Exception {
 
 		try {
 			

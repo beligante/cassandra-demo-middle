@@ -10,16 +10,17 @@ import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.MappingManager;
 import com.datastax.driver.mapping.Result;
 
-import almeida.rochapaulo.demo.api.requests.CreateUser;
+import almeida.rochapaulo.demo.api.requests.CreateUserRequest;
 import almeida.rochapaulo.demo.dao.accessor.UserProfileAccessor;
 import almeida.rochapaulo.demo.entities.UserCredential;
 import almeida.rochapaulo.demo.entities.UserProfile;
-import almeida.rochapaulo.demo.service.Hasher;
+import almeida.rochapaulo.demo.service.PasswordHash;
 import almeida.rochapaulo.demo.service.exceptions.EntityAlreadyExists;
 
+@Deprecated
 public class UserDAO {
 
-	private final Hasher hasher = Hasher.instance();
+	private final PasswordHash hasher = PasswordHash.instance();
 	private final Mapper<UserProfile> profileMapper;
 	private final Mapper<UserCredential> credentialMapper;
 	private final UserProfileAccessor profilesAccessor;
@@ -31,10 +32,10 @@ public class UserDAO {
 		profilesAccessor = manager.createAccessor(UserProfileAccessor.class);
 	}
 	
-	public UserProfile createUser(CreateUser createUser) throws Exception {
+	public UserProfile createUser(CreateUserRequest createUser) throws Exception {
 		
 		if (credentialMapper.get(createUser.getEmail()) != null) {
-			throw new EntityAlreadyExists();
+			throw new EntityAlreadyExists("");
 		}
 		
 		UUID userID = UUID.randomUUID();
@@ -49,7 +50,7 @@ public class UserDAO {
 		UserCredential credential = new UserCredential();
 		credential.setUserId(userID);
 		credential.setEmail(createUser.getEmail());
-		credential.setPassword(hasher.hash(createUser.getPassword()));
+		credential.setPassword(hasher.create(createUser.getPassword()));
 		
 		profileMapper.save(profile);
 		credentialMapper.save(credential);

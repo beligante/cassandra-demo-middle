@@ -18,7 +18,7 @@ import org.springframework.context.ApplicationContext;
 
 import almeida.rochapaulo.demo.Bootstrap;
 import almeida.rochapaulo.demo.api.requests.CreatePhoto;
-import almeida.rochapaulo.demo.api.requests.CreateUser;
+import almeida.rochapaulo.demo.api.requests.CreateUserRequest;
 import almeida.rochapaulo.demo.dao.PhotoDAO;
 import almeida.rochapaulo.demo.dao.UserDAO;
 
@@ -33,7 +33,7 @@ public class DemoTest {
 		UserDAO service = ctx.getBean(UserDAO.class);
 		UUID userId = null;
 		{
-			CreateUser request = new CreateUser();
+			CreateUserRequest request = new CreateUserRequest();
 			request.setEmail("almeida.paulorocha@gmail.com");
 			request.setFirstName("Paulo");
 			request.setLastName("Almeida");

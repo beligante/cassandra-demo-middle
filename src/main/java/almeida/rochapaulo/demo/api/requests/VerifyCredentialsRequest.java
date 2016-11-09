@@ -1,13 +1,13 @@
 package almeida.rochapaulo.demo.api.requests;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-public class CreateUser {
+@NoArgsConstructor
+public class VerifyCredentialsRequest {
 
 	private String email;
 	private String password;
-	private String firstName;
-	private String lastName;
 	
 }

@@ -4,22 +4,24 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class Hasher {
+import com.google.common.base.Objects;
 
-	private static Hasher instance;
+public class PasswordHash {
 
-	public static Hasher instance() {
+	private static PasswordHash instance;
+
+	public static PasswordHash instance() {
 		if (instance == null) {
-			instance = new Hasher();
+			instance = new PasswordHash();
 		}
 		return instance;
 	}
 
-	private Hasher() {
+	private PasswordHash() {
 		super();
 	}
 
-	public String hash(String source) {
+	public String create(String source) {
 		try {
 			MessageDigest md = MessageDigest.getInstance("SHA-256");
 			md.update(source.getBytes("UTF-8"));
@@ -32,4 +34,8 @@ public class Hasher {
 
 	}
 
+	public boolean validate(String raw, String hashed) {
+		return Objects.equal(create(raw), hashed);
+	}
+	
 }

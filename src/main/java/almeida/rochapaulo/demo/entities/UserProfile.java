@@ -7,10 +7,14 @@ import com.datastax.driver.mapping.annotations.Column;
 import com.datastax.driver.mapping.annotations.PartitionKey;
 import com.datastax.driver.mapping.annotations.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Table(name = "users")
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserProfile {
 
 	@PartitionKey

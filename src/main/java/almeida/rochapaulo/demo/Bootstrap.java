@@ -8,9 +8,9 @@ import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.mapping.MappingManager;
 
-import almeida.rochapaulo.demo.api.service.UserManagement;
 import almeida.rochapaulo.demo.dao.ImageDAO;
 import almeida.rochapaulo.demo.dao.PhotoDAO;
+import almeida.rochapaulo.demo.service.UserManagement;
 
 @SpringBootApplication
 public class Bootstrap {

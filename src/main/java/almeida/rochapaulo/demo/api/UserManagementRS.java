@@ -21,9 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import almeida.rochapaulo.demo.api.requests.CreateUserRequest;
 import almeida.rochapaulo.demo.api.responses.CreateUserResponse;
-import almeida.rochapaulo.demo.api.service.UserManagement;
 import almeida.rochapaulo.demo.api.service.query.QueryFactory;
 import almeida.rochapaulo.demo.entities.UserProfile;
+import almeida.rochapaulo.demo.service.UserManagement;
 import almeida.rochapaulo.demo.service.exceptions.EntityAlreadyExists;
 
 @RestController

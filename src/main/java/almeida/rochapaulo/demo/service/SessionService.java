@@ -1,5 +1,6 @@
 package almeida.rochapaulo.demo.service;
 
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
@@ -42,6 +43,16 @@ public class SessionService {
             
             return sessionID;
         });
+    }
+    
+    /**
+     * 
+     * @param sessionUUID
+     * @return
+     */
+    public CompletableFuture<Optional<Session>> getSession(UUID sessionUUID) {
+        
+        return CompletableFuture.supplyAsync(() -> Optional.ofNullable(sessionMapper.get(sessionUUID)));
     }
     
     /**

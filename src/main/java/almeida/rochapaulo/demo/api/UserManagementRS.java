@@ -1,13 +1,12 @@
 package almeida.rochapaulo.demo.api;
 
-import static almeida.rochapaulo.demo.filters.ProfileFilters.byEmail;
-import static almeida.rochapaulo.demo.filters.ProfileFilters.byFirstName;
-import static almeida.rochapaulo.demo.filters.ProfileFilters.byLastname;
 import static java.util.stream.Collectors.toList;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
+import java.util.function.Predicate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -83,7 +82,10 @@ public class UserManagementRS {
                 .findProfileBy(queryFactory.allProfiles())
                 .get()
                 .parallelStream()
-                .filter(byFirstName(firstName)).filter(byLastname(lastName)).filter(byEmail(email)).collect(toList());
+                .filter(byFirstName(firstName))
+                .filter(byLastname(lastName))
+                .filter(byEmail(email))
+                .collect(toList());
 
         if (profiles.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -92,4 +94,21 @@ public class UserManagementRS {
         return ResponseEntity.ok(profiles);
     }
 
+    
+    public static Predicate<? super UserProfile> byFirstName(String firstName) {
+        return profile -> (firstName == null) ? true : contains(profile.getFirstName(), firstName);
+    }
+
+    public static Predicate<? super UserProfile> byLastname(String lastName) {
+        return profile -> (lastName == null) ? true : contains(profile.getLastName(), lastName);
+    }
+
+    public static Predicate<? super UserProfile> byEmail(String email) {
+        return profile -> (email == null) ? true : Objects.equals(email, profile.getEmail());
+    }
+
+    private static boolean contains(String source, String filter) {
+        return source.contains(filter);
+    }
+    
 }

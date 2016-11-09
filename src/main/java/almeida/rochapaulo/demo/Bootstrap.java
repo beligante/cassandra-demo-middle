@@ -11,6 +11,7 @@ import com.datastax.driver.mapping.MappingManager;
 import almeida.rochapaulo.demo.api.service.query.QueryFactory;
 import almeida.rochapaulo.demo.bucket.BucketRepository;
 import almeida.rochapaulo.demo.service.PhotoService;
+import almeida.rochapaulo.demo.service.SessionService;
 import almeida.rochapaulo.demo.service.UserManagement;
 
 /**
@@ -21,24 +22,33 @@ import almeida.rochapaulo.demo.service.UserManagement;
 @SpringBootApplication
 public class Bootstrap {
 
+    static final String CONTACT_POINT = "127.0.0.1";
+    static final String CLUSTER_NAME = "Test Cluster";
+    static final String KEYSPACE = "demo";
+    
     public static void main(String[] args) {
         SpringApplication.run(Bootstrap.class, args);
     }
 
     @Bean
     public Session session() {
-        Cluster cluster = Cluster.builder().addContactPoint("127.0.0.1").withClusterName("Test Cluster").build();
-        return cluster.connect("demo");
+        Cluster cluster = Cluster.builder().addContactPoint(CONTACT_POINT).withClusterName(CLUSTER_NAME).build();
+        return cluster.connect(KEYSPACE);
     }
 
     @Bean
     public MappingManager mappingManager(Session session) {
         return new MappingManager(session);
     }
+    
+    @Bean
+    public SessionService sessionService(MappingManager manager) {
+        return new SessionService(manager);
+    }
 
     @Bean
-    public UserManagement userManagement(MappingManager manager) {
-        return new UserManagement(manager);
+    public UserManagement userManagement(MappingManager manager, SessionService sessionService) {
+        return new UserManagement(manager, sessionService);
     }
 
     @Bean

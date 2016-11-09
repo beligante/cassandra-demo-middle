@@ -10,10 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.MappingManager;
 
-import almeida.rochapaulo.demo.api.requests.CreateUserRequest;
 import almeida.rochapaulo.demo.api.requests.AuthRequest;
-import almeida.rochapaulo.demo.api.responses.CreateUserResponse;
+import almeida.rochapaulo.demo.api.requests.CreateUserRequest;
 import almeida.rochapaulo.demo.api.responses.AuthResponse;
+import almeida.rochapaulo.demo.api.responses.CreateUserResponse;
 import almeida.rochapaulo.demo.api.service.query.ProfileQuery;
 import almeida.rochapaulo.demo.entities.UserCredential;
 import almeida.rochapaulo.demo.entities.UserProfile;
@@ -30,12 +30,14 @@ public class UserManagement {
     private final PasswordHash passwordHash = PasswordHash.instance();
     private final Mapper<UserProfile> profileMapper;
     private final Mapper<UserCredential> credentialMapper;
+    private final SessionService sessionService;
 
     @Autowired
-    public UserManagement(MappingManager manager) {
+    public UserManagement(MappingManager manager, SessionService sessionService) {
         
         profileMapper = manager.mapper(UserProfile.class);
         credentialMapper = manager.mapper(UserCredential.class);
+        this.sessionService = sessionService;
     }
 
     /**
@@ -78,8 +80,7 @@ public class UserManagement {
      * @throws AuthException
      * @return
      */
-    public CompletableFuture<AuthResponse> verifyCredentials(AuthRequest request)
-            throws AuthException {
+    public CompletableFuture<AuthResponse> authenticate(AuthRequest request) throws AuthException {
 
         return CompletableFuture.supplyAsync(() -> {
 
@@ -87,7 +88,12 @@ public class UserManagement {
             boolean validated = passwordHash.validate(request.getPassword(), credentials.getPassword());
 
             if (validated) {
-                return new AuthResponse(credentials.getUserId());
+                try {
+                    UUID sessionUUID = sessionService.put(credentials.getUserId()).get();
+                    return new AuthResponse(credentials.getUserId(), sessionUUID);
+                } catch (Exception ex) {
+                  throw new RuntimeException(ex);  
+                }
             }
             
             throw new AuthException();

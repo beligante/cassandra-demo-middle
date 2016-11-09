@@ -15,4 +15,6 @@ import lombok.Data;
 public class AuthResponse {
 
     private final UUID userId;
+    private final UUID sessionId;
+    
 }

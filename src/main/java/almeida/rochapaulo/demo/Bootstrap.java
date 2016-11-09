@@ -8,6 +8,7 @@ import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.mapping.MappingManager;
 
+import almeida.rochapaulo.demo.api.service.query.QueryFactory;
 import almeida.rochapaulo.demo.dao.ImageDAO;
 import almeida.rochapaulo.demo.dao.PhotoDAO;
 import almeida.rochapaulo.demo.service.UserManagement;
@@ -43,6 +44,11 @@ public class Bootstrap {
 	@Bean
 	public ImageDAO imageDAO(MappingManager manager) {
 		return new ImageDAO(manager);
+	}
+	
+	@Bean
+	public QueryFactory queryFactory(MappingManager manager) {
+		return new QueryFactory(manager);
 	}
 	
 }

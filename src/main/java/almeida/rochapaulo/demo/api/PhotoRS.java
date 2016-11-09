@@ -56,7 +56,7 @@ public class PhotoRS {
                     meta.setDescription(p.getDescription());
                     meta.setName(p.getName());
                     meta.setUser(p.getUserId().toString());
-                    meta.setLocation("/image/" + p.getUuid());
+                    meta.setLocation("/bucket/images/" + p.getUuid());
                     return meta;
                 }).collect(toList());
 

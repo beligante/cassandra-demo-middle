@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import almeida.rochapaulo.demo.dao.ImageDAO;
+import almeida.rochapaulo.demo.dao.BucketRepository;
 
 /**
  * 
@@ -16,16 +16,16 @@ import almeida.rochapaulo.demo.dao.ImageDAO;
  *
  */
 @RestController
-public class ImageRS {
+public class BucketRS {
 
-    private final ImageDAO dao;
+    private final BucketRepository bucket;
 
     @Autowired
-    public ImageRS(ImageDAO dao) {
-        this.dao = dao;
+    public BucketRS(BucketRepository bucket) {
+        this.bucket = bucket;
     }
 
-    @RequestMapping(path = "/image/{uuid}", method = RequestMethod.GET, produces = "image/*")
+    @RequestMapping(path = "/bucket/images/{uuid}", method = RequestMethod.GET, produces = "image/jpg")
     public ResponseEntity<?> getThumbnail(
             @PathVariable String uuid,
             @RequestParam(name = "thumbnail", required = false) boolean thumbnail
@@ -33,9 +33,9 @@ public class ImageRS {
 
         final byte[] image;
         if (thumbnail) {
-            image = dao.getThumbnail(uuid);
+            image = bucket.getThumbnail(uuid);
         } else {
-            image = dao.getImage(uuid);
+            image = bucket.getImage(uuid);
         }
 
         return ResponseEntity.ok().body(image);

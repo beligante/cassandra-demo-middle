@@ -16,13 +16,13 @@ import almeida.rochapaulo.demo.entities.Thumbnail;
  * @author rochapaulo
  *
  */
-public class ImageDAO {
+public class BucketRepository {
 
     private final Mapper<Photo> photoMapper;
     private final Mapper<Thumbnail> thumbnailMapper;
 
     @Autowired
-    public ImageDAO(MappingManager manager) {
+    public BucketRepository(MappingManager manager) {
         
         photoMapper = manager.mapper(Photo.class);
         thumbnailMapper = manager.mapper(Thumbnail.class);

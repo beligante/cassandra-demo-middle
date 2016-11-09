@@ -12,11 +12,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.filter.GenericFilterBean;
 
 import almeida.rochapaulo.demo.entities.Session;
 import almeida.rochapaulo.demo.service.SessionService;
 
+/**
+ * 
+ * @author rochapaulo
+ *
+ */
 public class LoginFilter extends GenericFilterBean {
 
     private final SessionService service;
@@ -36,12 +42,13 @@ public class LoginFilter extends GenericFilterBean {
         
         if (sid.isPresent()) {
             final boolean authenticated = checkSession(sid.get());
-            if (!authenticated) {
-                httpResponse.sendRedirect("/login");
+            if (authenticated) {
+            	chain.doFilter(httpRequest, httpResponse);
             }
         }
         
-        chain.doFilter(httpRequest, httpResponse);
+        httpResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
+    	httpResponse.sendRedirect("/login");    
     }
 
     private HttpServletRequest asHttp(ServletRequest request) {

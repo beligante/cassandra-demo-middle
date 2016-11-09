@@ -2,6 +2,7 @@ package almeida.rochapaulo.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 
 import com.datastax.driver.core.Cluster;
@@ -10,6 +11,7 @@ import com.datastax.driver.mapping.MappingManager;
 
 import almeida.rochapaulo.demo.api.service.query.QueryFactory;
 import almeida.rochapaulo.demo.bucket.BucketRepository;
+import almeida.rochapaulo.demo.filters.LoginFilter;
 import almeida.rochapaulo.demo.service.PhotoService;
 import almeida.rochapaulo.demo.service.SessionService;
 import almeida.rochapaulo.demo.service.UserManagement;
@@ -36,6 +38,19 @@ public class Bootstrap {
         return cluster.connect(KEYSPACE);
     }
 
+    @Bean
+    public FilterRegistrationBean loginFilter(SessionService service) {
+    	
+    	FilterRegistrationBean registration = new FilterRegistrationBean();
+    	
+    	registration.setFilter(new LoginFilter(service));
+    	registration.addUrlPatterns("/secure/*");
+        registration.setName("LoginFilter");
+        registration.setOrder(1);
+        
+    	return registration;
+    }
+    
     @Bean
     public MappingManager mappingManager(Session session) {
         return new MappingManager(session);

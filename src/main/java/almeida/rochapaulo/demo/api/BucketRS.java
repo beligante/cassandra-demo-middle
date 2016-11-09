@@ -15,7 +15,7 @@ import almeida.rochapaulo.demo.bucket.BucketRepository;
  * @author rochapaulo
  *
  */
-@RestController
+@RestController(value = "/secure/bucket")
 public class BucketRS {
 
     private final BucketRepository bucket;
@@ -25,7 +25,7 @@ public class BucketRS {
         this.bucket = bucket;
     }
 
-    @RequestMapping(path = "/bucket/images/{uuid}", method = RequestMethod.GET, produces = "image/jpg")
+    @RequestMapping(path = "/images/{uuid}", method = RequestMethod.GET, produces = "image/jpg")
     public ResponseEntity<?> getThumbnail(
             @PathVariable String uuid,
             @RequestParam(name = "thumbnail", required = false) boolean thumbnail

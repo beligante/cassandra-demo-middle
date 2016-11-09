@@ -26,7 +26,7 @@ import almeida.rochapaulo.demo.service.PhotoService;
  * @author rochapaulo
  *
  */
-@RestController
+@RestController("/secure")
 public class PhotoRS {
 
     private final QueryFactory queryFactory;
@@ -85,7 +85,7 @@ public class PhotoRS {
         return ResponseEntity.ok(meta);
     }
 
-    @RequestMapping(path = "/photos/user/{userId}", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(path = "photos/user/{userId}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<?> getPhotos(@PathVariable String userId) throws Exception {
         
         final List<Photo> photos = photoService.findPhotosBy(queryFactory.photosByUserUUID(UUID.fromString(userId))).get();

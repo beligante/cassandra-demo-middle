@@ -13,7 +13,7 @@ CREATE TABLE demo.user_credentials (
 	email text,
 	password text,
 	PRIMARY KEY (email));
-	
+
 CREATE TABLE demo.photos (
 	photo_id uuid,
 	user_id uuid,
@@ -23,7 +23,7 @@ CREATE TABLE demo.photos (
 	tags set<text>,
 	added_date timestamp,
 	PRIMARY KEY (photo_id));
-	
+
 CREATE TABLE demo.thumbnail (
 	photo_id uuid,
 	bytes blob,
@@ -35,21 +35,21 @@ CREATE TABLE demo.photos_by_user_id (
 	photo_id uuid,
 	photo_name text,
 	PRIMARY KEY (user_id, added_date, photo_id));
-	
+
 CREATE TABLE demo.latest_photos (
 	ddmmyyyy text,
 	added_date timestamp,
 	photo_id uuid,
 	photo_name text,
 	PRIMARY KEY (ddmmyyyy, added_date, photo_id));
-	
+
 CREATE TABLE demo.photo_rank (
 	photo_id uuid,
 	stars varchar,
 	votes counter,
 	PRIMARY KEY(stars, photo_id));
-	
+
 CREATE TABLE demo.session (
 	session_id uuid,
-	user_id uuid.
+	user_id uuid,
 	PRIMARY KEY(session_id));

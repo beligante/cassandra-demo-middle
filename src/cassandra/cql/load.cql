@@ -48,3 +48,8 @@ CREATE TABLE demo.photo_rank (
 	stars varchar,
 	votes counter,
 	PRIMARY KEY(stars, photo_id));
+	
+CREATE TABLE demo.session (
+	session_id uuid,
+	user_id uuid.
+	PRIMARY KEY(session_id));

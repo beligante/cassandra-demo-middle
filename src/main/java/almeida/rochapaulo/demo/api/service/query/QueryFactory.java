@@ -24,4 +24,7 @@ public class QueryFactory {
 		return new ProfileByUserID(manager, userUUID);
 	}
 	
+	public ProfileQuery allProfiles() {
+		return new AllProfiles(manager);
+	}
 }

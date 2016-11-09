@@ -1,5 +1,11 @@
-package almeida.rochapaulo.demo.api.service.query;
+package almeida.rochapaulo.demo.api.service.query;/**
+ * 
+ * @author rochapaulo
+ *
+ */
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -24,9 +30,9 @@ public class ProfileByUserID implements ProfileQuery {
 	}
 	
 	@Override
-	public CompletableFuture<UserProfile> execute() {
+	public CompletableFuture<List<UserProfile>> execute() {
 		
-		return CompletableFuture.supplyAsync(() -> profileMapper.get(uuid));
+		return CompletableFuture.supplyAsync(() -> Arrays.asList(profileMapper.get(uuid)));
 	}
 
 }

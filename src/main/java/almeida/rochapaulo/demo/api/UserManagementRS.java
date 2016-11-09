@@ -20,18 +20,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import almeida.rochapaulo.demo.api.requests.CreateUserRequest;
-import almeida.rochapaulo.demo.dao.UserDAO;
+import almeida.rochapaulo.demo.api.responses.CreateUserResponse;
+import almeida.rochapaulo.demo.api.service.UserManagement;
+import almeida.rochapaulo.demo.api.service.query.QueryFactory;
 import almeida.rochapaulo.demo.entities.UserProfile;
 import almeida.rochapaulo.demo.service.exceptions.EntityAlreadyExists;
 
 @RestController
 public class UserManagementRS {
 
-	private final UserDAO service;
+	private final UserManagement service;
+	private final QueryFactory queryFactory;
 	
 	@Autowired
-	public UserManagementRS(UserDAO service) {
+	public UserManagementRS(UserManagement service, QueryFactory queryFactory) {
 		this.service = service;
+		this.queryFactory = queryFactory;
 	}
 	
 	@RequestMapping(path = "/users", method = RequestMethod.POST, consumes = "application/json")
@@ -39,7 +43,7 @@ public class UserManagementRS {
 
 		try {
 			
-			UserProfile profileCreated = service.createUser(request);
+			CreateUserResponse profileCreated = service.createUser(request).get();
 			URI resourceLocation = new URI("/users/" + profileCreated.getUserId());
 			
 			return ResponseEntity.created(resourceLocation).build();
@@ -53,9 +57,9 @@ public class UserManagementRS {
 	}
 	
 	@RequestMapping(path = "/users/{userId}", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<?> getUserProfile(@PathVariable String userId) {
+	public ResponseEntity<?> getUserProfile(@PathVariable String userId) throws Exception {
 		
-		UserProfile profile = service.findProfileById(UUID.fromString(userId));
+		List<UserProfile> profile = service.findProfileBy(queryFactory.profileByUUID(UUID.fromString(userId))).get();
 		
 		if (profile == null) {
 			return ResponseEntity.notFound().build();
@@ -69,10 +73,11 @@ public class UserManagementRS {
 			@RequestParam(name = "firstName", required = false) String firstName,
 			@RequestParam(name = "lastName", required = false) String lastName,
 			@RequestParam(name = "email", required = false) String email
-	) {
+	) throws Exception {
 		
 		List<UserProfile> profiles = 
-				service.getAllProfiles()
+				service.findProfileBy(queryFactory.allProfiles())
+					.get()
 					.parallelStream()
 						.filter(byFirstName(firstName))
 						.filter(byLastname(lastName))

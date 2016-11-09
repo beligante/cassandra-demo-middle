@@ -1,6 +1,7 @@
 package almeida.rochapaulo.demo.api.service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -95,7 +96,7 @@ public class UserManagement {
 	 * @param query
 	 * @return
 	 */
-	public CompletableFuture<UserProfile> findProfileBy(ProfileQuery query) {
+	public CompletableFuture<List<UserProfile>> findProfileBy(ProfileQuery query) {
 		return query.execute();
 	}
 	

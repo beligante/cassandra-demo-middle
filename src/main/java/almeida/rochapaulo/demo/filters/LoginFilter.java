@@ -41,13 +41,15 @@ public class LoginFilter extends GenericFilterBean {
         HttpServletResponse httpResponse = asHttp(res);
         
         boolean authenticated = false;
-        for (Cookie cookie : httpRequest.getCookies()) {
-        	
-        	if (Objects.equals("SID", cookie.getName())) {
-        		
-        		authenticated = checkSession(cookie.getValue());
-        		break;
-        	}
+        final Cookie[] cookies = httpRequest.getCookies();
+        
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (Objects.equals("SID", cookie.getName())) {
+                    authenticated = checkSession(cookie.getValue());
+                    break;
+                }
+            } 
         }
         
         if (authenticated) {

@@ -60,7 +60,7 @@ public class PhotoRS {
     public ResponseEntity<?> getPhotos() throws Exception {
         
         final List<PhotoMetadata> photos = 
-            photoService.findPhotosBy(null)
+            photoService.findPhotosBy(queryFactory.allPhotos())
                 .get()
                 .parallelStream()
                 .map(p -> {
@@ -68,7 +68,7 @@ public class PhotoRS {
                     meta.setDescription(p.getDescription());
                     meta.setName(p.getName());
                     meta.setUser(p.getUserId().toString());
-                    meta.setLocation("/bucket/images/" + p.getUuid());
+                    meta.setLocation("/api/secure/bucket/images/" + p.getUuid());
                     return meta;
                 }).collect(toList());
 
@@ -97,7 +97,7 @@ public class PhotoRS {
         meta.setDescription(photo.getDescription());
         meta.setName(photo.getName());
         meta.setUser(photo.getUserId().toString());
-        meta.setLocation("/image/" + photo.getUuid());
+        meta.setLocation("/api/secure/bucket/images/" + photo.getUuid());
 
         return ResponseEntity.ok(meta);
     }
@@ -115,7 +115,18 @@ public class PhotoRS {
             return ResponseEntity.notFound().build();
         }
         
-        return ResponseEntity.ok(photos);
+        List<PhotoMetadata> response = 
+            photos.parallelStream()
+                .map(p -> {
+                    PhotoMetadata meta = new PhotoMetadata();
+                    meta.setDescription(p.getDescription());
+                    meta.setName(p.getName());
+                    meta.setUser(p.getUserId().toString());
+                    meta.setLocation("/api/secure/bucket/images/" + p.getUuid());
+                    return meta;
+                }).collect(toList());
+        
+        return ResponseEntity.ok(response);
     }
 
 }

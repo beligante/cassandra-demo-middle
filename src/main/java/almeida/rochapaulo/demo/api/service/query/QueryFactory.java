@@ -37,4 +37,8 @@ public class QueryFactory {
         return new PhotosByUserID(manager, userUUID);
     }
     
+    public PhotoQuery allPhotos() {
+        return new AllPhotos(manager);
+    }
+    
 }

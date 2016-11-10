@@ -44,7 +44,7 @@ public class Bootstrap {
     	FilterRegistrationBean registration = new FilterRegistrationBean();
     	
     	registration.setFilter(new LoginFilter(service));
-    	registration.addUrlPatterns("/secure/*");
+    	registration.addUrlPatterns("/api/secure/*");
         registration.setName("LoginFilter");
         registration.setOrder(1);
         

@@ -1,4 +1,4 @@
-package almeida.rochapaulo.demo.api.service.query;
+package almeida.rochapaulo.demo.service.query;
 
 import static com.google.common.util.concurrent.Futures.addCallback;
 import static com.google.common.util.concurrent.Futures.transform;

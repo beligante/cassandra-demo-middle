@@ -21,13 +21,13 @@ import almeida.rochapaulo.demo.api.requests.CreatePhotoRequest;
 import almeida.rochapaulo.demo.api.requests.RatePhotoRequest;
 import almeida.rochapaulo.demo.api.responses.CreatePhotoResponse;
 import almeida.rochapaulo.demo.api.responses.RatePhotoResponse;
-import almeida.rochapaulo.demo.api.service.query.PhotoQuery;
 import almeida.rochapaulo.demo.dao.accessor.PhotosAccessor;
 import almeida.rochapaulo.demo.entities.LatestPhotos;
 import almeida.rochapaulo.demo.entities.Photo;
 import almeida.rochapaulo.demo.entities.PhotoLookupByRank;
 import almeida.rochapaulo.demo.entities.PhotosLookupByUserID;
 import almeida.rochapaulo.demo.entities.Thumbnail;
+import almeida.rochapaulo.demo.service.query.PhotoQuery;
 import net.coobird.thumbnailator.Thumbnails;
 
 /**

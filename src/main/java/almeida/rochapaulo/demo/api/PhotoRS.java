@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import almeida.rochapaulo.demo.api.requests.CreatePhotoRequest;
 import almeida.rochapaulo.demo.api.responses.CreatePhotoResponse;
 import almeida.rochapaulo.demo.api.responses.PhotoMetadata;
-import almeida.rochapaulo.demo.api.service.query.QueryFactory;
 import almeida.rochapaulo.demo.entities.Photo;
 import almeida.rochapaulo.demo.service.PhotoService;
+import almeida.rochapaulo.demo.service.query.QueryFactory;
 
 /**
  * 

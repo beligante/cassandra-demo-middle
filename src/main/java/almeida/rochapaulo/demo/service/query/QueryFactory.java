@@ -1,4 +1,4 @@
-package almeida.rochapaulo.demo.api.service.query;
+package almeida.rochapaulo.demo.service.query;
 
 import java.util.UUID;
 

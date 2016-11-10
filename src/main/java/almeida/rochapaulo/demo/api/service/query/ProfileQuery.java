@@ -1,7 +1,8 @@
 package almeida.rochapaulo.demo.api.service.query;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
+
+import com.google.common.util.concurrent.ListenableFuture;
 
 import almeida.rochapaulo.demo.entities.UserProfile;
 
@@ -12,6 +13,6 @@ import almeida.rochapaulo.demo.entities.UserProfile;
  */
 public interface ProfileQuery {
 
-    CompletableFuture<List<UserProfile>> execute();
+    ListenableFuture<List<UserProfile>> execute();
 
 }

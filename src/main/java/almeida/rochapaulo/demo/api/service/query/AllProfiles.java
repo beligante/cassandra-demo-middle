@@ -1,9 +1,14 @@
 package almeida.rochapaulo.demo.api.service.query;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 import com.datastax.driver.mapping.MappingManager;
+import com.datastax.driver.mapping.Result;
+import com.google.common.base.Function;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 
 import almeida.rochapaulo.demo.dao.accessor.UserProfileAccessor;
 import almeida.rochapaulo.demo.entities.UserProfile;
@@ -23,9 +28,18 @@ public class AllProfiles implements ProfileQuery {
     }
 
     @Override
-    public CompletableFuture<List<UserProfile>> execute() {
+    public ListenableFuture<List<UserProfile>> execute() {
 
-        return CompletableFuture.supplyAsync(() -> accessor.getAll().all());
+        return Futures.transform(accessor.getAllAsync(), wrap2List());
     }
 
+    private Function<Result<UserProfile>, List<UserProfile>> wrap2List() {
+
+        final List<UserProfile> result = Collections.synchronizedList(new ArrayList<>());
+        return (Function<Result<UserProfile>, List<UserProfile>>) profile -> {
+            
+            profile.forEach(result::add);
+            return result;
+        };
+    }
 }

@@ -28,6 +28,9 @@ public interface PhotosAccessor {
     @Query("SELECT * FROM photos_by_user_id WHERE user_id = ?")
     Result<PhotosLookupByUserID> getByUserId(UUID userId);
 
+    @Query("SELECT * FROM photos_by_user_id WHERE user_id = ?")
+    ListenableFuture<Result<PhotosLookupByUserID>> getByUserIdAsync(UUID userId);
+    
     @Query("UPDATE photo_rank SET votes = votes + 1 WHERE photo_id = ? AND stars = ?")
     Result<PhotoLookupByRank> ratePhoto(UUID photoId, String stars);
 

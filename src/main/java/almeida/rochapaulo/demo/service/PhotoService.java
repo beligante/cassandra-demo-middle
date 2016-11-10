@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.MappingManager;
+import com.google.common.util.concurrent.ListenableFuture;
 
 import almeida.rochapaulo.demo.api.requests.CreatePhotoRequest;
 import almeida.rochapaulo.demo.api.requests.RatePhotoRequest;
@@ -156,7 +157,7 @@ public class PhotoService {
      * @param query
      * @return
      */
-    public CompletableFuture<List<Photo>> findPhotosBy(PhotoQuery query) {
+    public ListenableFuture<List<Photo>> findPhotosBy(PhotoQuery query) {
         
         return query.execute();
     }

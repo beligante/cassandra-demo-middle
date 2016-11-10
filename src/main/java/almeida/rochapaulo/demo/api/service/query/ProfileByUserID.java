@@ -3,10 +3,12 @@ package almeida.rochapaulo.demo.api.service.query;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 
 import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.MappingManager;
+import com.google.common.base.Function;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 
 import almeida.rochapaulo.demo.entities.UserProfile;
 
@@ -27,9 +29,14 @@ public class ProfileByUserID implements ProfileQuery {
     }
 
     @Override
-    public CompletableFuture<List<UserProfile>> execute() {
+    public ListenableFuture<List<UserProfile>> execute() {
 
-        return CompletableFuture.supplyAsync(() -> Arrays.asList(profileMapper.get(uuid)));
+        return Futures.transform(profileMapper.getAsync(uuid), wrap2List());
     }
 
+    private Function<UserProfile, List<UserProfile>> wrap2List() {
+        
+        return (Function<UserProfile, List<UserProfile>>) profile -> Arrays.asList(profile);
+    }
+ 
 }

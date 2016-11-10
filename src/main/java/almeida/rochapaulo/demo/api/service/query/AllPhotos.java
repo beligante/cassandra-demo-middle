@@ -1,9 +1,14 @@
 package almeida.rochapaulo.demo.api.service.query;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 import com.datastax.driver.mapping.MappingManager;
+import com.datastax.driver.mapping.Result;
+import com.google.common.base.Function;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 
 import almeida.rochapaulo.demo.dao.accessor.PhotosAccessor;
 import almeida.rochapaulo.demo.entities.Photo;
@@ -23,9 +28,19 @@ public class AllPhotos implements PhotoQuery {
     }
     
     @Override
-    public CompletableFuture<List<Photo>> execute() {
-        
-        return CompletableFuture.supplyAsync(() -> accessor.getAll().all());
+    public ListenableFuture<List<Photo>> execute() {
+
+        return Futures.transform(accessor.getAllAsync(), wrap2List());
+    }
+
+    private Function<Result<Photo>, List<Photo>> wrap2List() {
+
+        final List<Photo> result = Collections.synchronizedList(new ArrayList<>());
+        return (Function<Result<Photo>, List<Photo>>) photos -> {
+            
+            photos.forEach(result::add);
+            return result;
+        };
     }
 
 }

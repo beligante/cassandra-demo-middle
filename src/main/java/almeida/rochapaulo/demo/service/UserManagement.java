@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.MappingManager;
+import com.google.common.util.concurrent.ListenableFuture;
 
 import almeida.rochapaulo.demo.api.requests.AuthRequest;
 import almeida.rochapaulo.demo.api.requests.CreateUserRequest;
@@ -110,7 +111,7 @@ public class UserManagement {
      * @param query
      * @return
      */
-    public CompletableFuture<List<UserProfile>> findProfileBy(ProfileQuery query) {
+    public ListenableFuture<List<UserProfile>> findProfileBy(ProfileQuery query) {
         return query.execute();
     }
 

@@ -3,10 +3,12 @@ package almeida.rochapaulo.demo.api.service.query;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 
 import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.MappingManager;
+import com.google.common.base.Function;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 
 import almeida.rochapaulo.demo.entities.Photo;
 
@@ -27,9 +29,14 @@ public class PhotoByPhotoID implements PhotoQuery {
     }
     
     @Override
-    public CompletableFuture<List<Photo>> execute() {
+    public ListenableFuture<List<Photo>> execute() {
         
-        return CompletableFuture.supplyAsync(() -> Arrays.asList(photoMapper.get(uuid)));
+        return Futures.transform(photoMapper.getAsync(uuid), wrap2List());
+    }
+
+    private Function<Photo, List<Photo>> wrap2List() {
+        
+        return (Function<Photo, List<Photo>>) photo -> Arrays.asList(photo);
     }
 
 }

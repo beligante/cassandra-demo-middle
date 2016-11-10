@@ -1,16 +1,19 @@
 package almeida.rochapaulo.demo.api.service.query;
 
-import static java.util.concurrent.CompletableFuture.supplyAsync;
+import static com.google.common.util.concurrent.Futures.addCallback;
+import static com.google.common.util.concurrent.Futures.transform;
+import static java.util.Collections.synchronizedList;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 
 import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.MappingManager;
 import com.datastax.driver.mapping.Result;
+import com.google.common.base.Function;
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.ListenableFuture;
 
 import almeida.rochapaulo.demo.dao.accessor.PhotosAccessor;
 import almeida.rochapaulo.demo.entities.Photo;
@@ -35,26 +38,37 @@ public class PhotosByUserID implements PhotoQuery {
     }
 
     @Override
-    public CompletableFuture<List<Photo>> execute() {
+    public ListenableFuture<List<Photo>> execute() {
         
-        return CompletableFuture.supplyAsync(() -> {
-          
-            final Result<PhotosLookupByUserID> resultset = accessor.getByUserId(uuid);
-            final List<PhotosLookupByUserID> lookupKeys = resultset.all();
+        return transform(accessor.getByUserIdAsync(uuid), map2Photos());
+    }
+
+    private Function<Result<PhotosLookupByUserID>, List<Photo>> map2Photos() {
+        
+        return (Function<Result<PhotosLookupByUserID>, List<Photo>>) lookupKeys -> {
             
-            final List<Photo> photos = Collections.synchronizedList(new ArrayList<>(lookupKeys.size()));
+            final List<Photo> photos = synchronizedList(new ArrayList<>());
             for (PhotosLookupByUserID lookupKey : lookupKeys) {
-                
-                supplyAsync(() -> photoMapper.get(lookupKey.getPhotoId()))
-                    .thenAccept(photo -> {
-                        photos.add(photo);
-                    });
-                
-                photos.add(photoMapper.get(lookupKey.getPhotoId()));
+                addCallback(photoMapper.getAsync(lookupKey.getPhotoId()), aggregate(photos));
             }
             
             return photos;
-        });
+        };
+    }
+
+    private FutureCallback<Photo> aggregate(final List<Photo> photos) {
+        
+        return new FutureCallback<Photo>() {
+
+            @Override
+            public void onSuccess(Photo photo) {
+                photos.add(photo);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) { }
+            
+        };
     }
 
 }

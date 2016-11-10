@@ -1,7 +1,8 @@
 package almeida.rochapaulo.demo.api.service.query;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
+
+import com.google.common.util.concurrent.ListenableFuture;
 
 import almeida.rochapaulo.demo.entities.Photo;
 
@@ -12,6 +13,6 @@ import almeida.rochapaulo.demo.entities.Photo;
  */
 public interface PhotoQuery {
 
-    CompletableFuture<List<Photo>> execute();
+    ListenableFuture<List<Photo>> execute();
     
 }

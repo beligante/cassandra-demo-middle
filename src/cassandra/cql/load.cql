@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS demo.latest_photos (
 	photo_id uuid,
 	photo_name text,
 	PRIMARY KEY (ddmmyyyy, added_date, photo_id)
-) WITH CLUSTERING ORDER BY (added_date DESC, videoid ASC);
+) WITH CLUSTERING ORDER BY (added_date DESC, photo_id ASC);
 
 CREATE TABLE IF NOT EXISTS demo.photo_rank (
 	photo_id uuid,

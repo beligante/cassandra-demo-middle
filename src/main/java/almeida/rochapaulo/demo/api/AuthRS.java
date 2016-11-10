@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,7 +32,11 @@ public class AuthRS {
         this.service = service;
     }
     
-    @RequestMapping(path = "/api/login", method = RequestMethod.POST, consumes = "application/json")
+    @RequestMapping(
+            path = "/api/login", 
+            method = RequestMethod.POST, 
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
     public ResponseEntity<?> login(@RequestBody AuthRequest request) throws Exception {
     
         try {
@@ -45,7 +50,11 @@ public class AuthRS {
         
     }
     
-    @RequestMapping(path = "/api/logout", method = RequestMethod.POST)
+    
+    @RequestMapping(
+            path = "/api/logout", 
+            method = RequestMethod.POST
+    )
     public ResponseEntity<?> logout(@CookieValue("SID") String sessionID) throws Exception {
     
         service.logout(UUID.fromString(sessionID));

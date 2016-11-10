@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,13 +39,24 @@ public class PhotoRS {
         this.queryFactory = queryFactory;
     }
 
-    @RequestMapping(path = "/api/secure/photos", method = RequestMethod.POST, consumes = "application/json")
+
+    @RequestMapping(
+            path = "/api/secure/photos", 
+            method = RequestMethod.POST, 
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
     public ResponseEntity<?> upload(@RequestBody CreatePhotoRequest request) throws Exception {
+        
         CreatePhotoResponse created = photoService.upload(request).get();
         return ResponseEntity.created(new URI("/photos/" + created.getPhotoUUID())).build();
     }
 
-    @RequestMapping(path = "/api/secure/photos", method = RequestMethod.GET, produces = "application/json")
+    
+    @RequestMapping(
+            path = "/api/secure/photos", 
+            method = RequestMethod.GET, 
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public ResponseEntity<?> getPhotos() throws Exception {
         
         final List<PhotoMetadata> photos = 
@@ -67,7 +79,12 @@ public class PhotoRS {
         return ResponseEntity.ok(photos);
     }
 
-    @RequestMapping(path = "/api/secure/photos/{photoId}", method = RequestMethod.GET, produces = "application/json")
+    
+    @RequestMapping(
+            path = "/api/secure/photos/{photoId}", 
+            method = RequestMethod.GET, 
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public ResponseEntity<?> getPhoto(@PathVariable String photoId) throws Exception {
         
         final List<Photo> photos = photoService.findPhotosBy(queryFactory.photoByUUID(UUID.fromString(photoId))).get();
@@ -84,8 +101,13 @@ public class PhotoRS {
 
         return ResponseEntity.ok(meta);
     }
+    
 
-    @RequestMapping(path = "/api/secure/photos/user/{userId}", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(
+            path = "/api/secure/photos/user/{userId}", 
+            method = RequestMethod.GET, 
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public ResponseEntity<?> getPhotos(@PathVariable String userId) throws Exception {
         
         final List<Photo> photos = photoService.findPhotosBy(queryFactory.photosByUserUUID(UUID.fromString(userId))).get();

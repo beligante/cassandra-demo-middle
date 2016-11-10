@@ -10,6 +10,7 @@ import java.util.function.Predicate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,7 +43,11 @@ public class UserManagementRS {
         this.queryFactory = queryFactory;
     }
 
-    @RequestMapping(path = "/api/users", method = RequestMethod.POST, consumes = "application/json")
+    @RequestMapping(
+            path = "/api/users", 
+            method = RequestMethod.POST, 
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
     public ResponseEntity<?> createUser(@RequestBody CreateUserRequest request) throws Exception {
 
         try {
@@ -60,7 +65,12 @@ public class UserManagementRS {
 
     }
 
-    @RequestMapping(path = "/api/secure/users/{userId}", method = RequestMethod.GET, produces = "application/json")
+    
+    @RequestMapping(
+            path = "/api/secure/users/{userId}", 
+            method = RequestMethod.GET, 
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public ResponseEntity<?> getUserProfile(@PathVariable String userId) throws Exception {
 
         List<UserProfile> profile = service.findProfileBy(queryFactory.profileByUUID(UUID.fromString(userId))).get();
@@ -72,7 +82,11 @@ public class UserManagementRS {
         return ResponseEntity.ok(profile);
     }
 
-    @RequestMapping(path = "/api/secure/users", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(
+            path = "/api/secure/users", 
+            method = RequestMethod.GET, 
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public ResponseEntity<?> getUsersProfile(
     		@RequestParam(name = "firstName", required = false) String firstName,
             @RequestParam(name = "lastName", required = false) String lastName,

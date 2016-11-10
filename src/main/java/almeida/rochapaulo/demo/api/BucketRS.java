@@ -1,6 +1,7 @@
 package almeida.rochapaulo.demo.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +26,11 @@ public class BucketRS {
         this.bucket = bucket;
     }
 
-    @RequestMapping(path = "api/secure/bucket/images/{uuid}", method = RequestMethod.GET, produces = "image/jpg")
+    @RequestMapping(
+            path = "api/secure/bucket/images/{uuid}", 
+            method = RequestMethod.GET, 
+            produces = MediaType.IMAGE_JPEG_VALUE
+    )
     public ResponseEntity<?> getThumbnail(
             @PathVariable String uuid,
             @RequestParam(name = "thumbnail", required = false) boolean thumbnail

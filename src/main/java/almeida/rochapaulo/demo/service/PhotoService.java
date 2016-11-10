@@ -36,12 +36,13 @@ import net.coobird.thumbnailator.Thumbnails;
  */
 public class PhotoService {
 
+    static final String DATE_PATTERN = "ddMMyyyy";
+    
     private final PhotosAccessor accessor;
     private final Mapper<Photo> photoMapper;
     private final Mapper<LatestPhotos> latestPhotoMapper;
     private final Mapper<PhotosLookupByUserID> photoByUserIdMapper;
     private final Mapper<Thumbnail> thumbnailMapper;
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");
     
     @Autowired
     public PhotoService(MappingManager manager) {
@@ -80,6 +81,8 @@ public class PhotoService {
             latestPhoto.setPhotoId(imageUUID);
             latestPhoto.setPhotoName(request.getName());
             latestPhoto.setAddedDate(today);
+            
+            final SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_PATTERN);
             latestPhoto.setDdMMyyyy(dateFormat.format(today));
 
             PhotosLookupByUserID byUserId = new PhotosLookupByUserID();

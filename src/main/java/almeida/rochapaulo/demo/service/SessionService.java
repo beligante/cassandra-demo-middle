@@ -20,7 +20,7 @@ import almeida.rochapaulo.demo.entities.Session;
  */
 public class SessionService {
 
-    private static final int TTL_IN_SEC = (int) TimeUnit.HOURS.toSeconds(1L);
+    private static final int TTL_IN_SEC = (int) TimeUnit.MINUTES.toSeconds(15L);
     private final Mapper<Session> sessionMapper;
     
     @Autowired

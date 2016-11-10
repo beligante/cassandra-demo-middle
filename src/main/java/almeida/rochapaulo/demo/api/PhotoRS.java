@@ -38,13 +38,13 @@ public class PhotoRS {
         this.queryFactory = queryFactory;
     }
 
-    @RequestMapping(path = "/secure/photos", method = RequestMethod.POST, consumes = "application/json")
+    @RequestMapping(path = "/api/secure/photos", method = RequestMethod.POST, consumes = "application/json")
     public ResponseEntity<?> upload(@RequestBody CreatePhotoRequest request) throws Exception {
         CreatePhotoResponse created = photoService.upload(request).get();
         return ResponseEntity.created(new URI("/photos/" + created.getPhotoUUID())).build();
     }
 
-    @RequestMapping(path = "/secure/photos", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(path = "/api/secure/photos", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<?> getPhotos() throws Exception {
         
         final List<PhotoMetadata> photos = 
@@ -67,7 +67,7 @@ public class PhotoRS {
         return ResponseEntity.ok(photos);
     }
 
-    @RequestMapping(path = "/secure/photos/{photoId}", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(path = "/api/secure/photos/{photoId}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<?> getPhoto(@PathVariable String photoId) throws Exception {
         
         final List<Photo> photos = photoService.findPhotosBy(queryFactory.photoByUUID(UUID.fromString(photoId))).get();
@@ -85,7 +85,7 @@ public class PhotoRS {
         return ResponseEntity.ok(meta);
     }
 
-    @RequestMapping(path = "/secure/photos/user/{userId}", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(path = "/api/secure/photos/user/{userId}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<?> getPhotos(@PathVariable String userId) throws Exception {
         
         final List<Photo> photos = photoService.findPhotosBy(queryFactory.photosByUserUUID(UUID.fromString(userId))).get();

@@ -1,5 +1,7 @@
 package almeida.rochapaulo.demo.api;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +31,7 @@ public class AuthRS {
         this.service = service;
     }
     
-    @RequestMapping(path = "/login", method = RequestMethod.POST, consumes = "application/json")
+    @RequestMapping(path = "/api/login", method = RequestMethod.POST, consumes = "application/json")
     public ResponseEntity<?> login(@RequestBody AuthRequest request) throws Exception {
     
         try {
@@ -43,10 +45,11 @@ public class AuthRS {
         
     }
     
-    @RequestMapping(path = "/logout", method = RequestMethod.POST)
+    @RequestMapping(path = "/api/logout", method = RequestMethod.POST)
     public ResponseEntity<?> logout(@CookieValue("SID") String sessionID) throws Exception {
     
-        return ResponseEntity.notFound().build();
+        service.logout(UUID.fromString(sessionID));
+        return ResponseEntity.noContent().build();
     }
     
 }

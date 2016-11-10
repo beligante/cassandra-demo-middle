@@ -42,7 +42,7 @@ public class UserManagementRS {
         this.queryFactory = queryFactory;
     }
 
-    @RequestMapping(path = "/users", method = RequestMethod.POST, consumes = "application/json")
+    @RequestMapping(path = "/api/users", method = RequestMethod.POST, consumes = "application/json")
     public ResponseEntity<?> createUser(@RequestBody CreateUserRequest request) throws Exception {
 
         try {
@@ -60,7 +60,7 @@ public class UserManagementRS {
 
     }
 
-    @RequestMapping(path = "secure/users/{userId}", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(path = "/api/secure/users/{userId}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<?> getUserProfile(@PathVariable String userId) throws Exception {
 
         List<UserProfile> profile = service.findProfileBy(queryFactory.profileByUUID(UUID.fromString(userId))).get();
@@ -72,7 +72,7 @@ public class UserManagementRS {
         return ResponseEntity.ok(profile);
     }
 
-    @RequestMapping(path = "secure/users", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(path = "/api/secure/users", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<?> getUsersProfile(
     		@RequestParam(name = "firstName", required = false) String firstName,
             @RequestParam(name = "lastName", required = false) String lastName,

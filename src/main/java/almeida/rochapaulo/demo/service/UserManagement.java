@@ -99,6 +99,11 @@ public class UserManagement {
             throw new AuthException();
         });
     }
+    
+    public void logout(UUID sessionID) {
+        
+        sessionService.purge(sessionID);
+    }
 
     /**
      * 

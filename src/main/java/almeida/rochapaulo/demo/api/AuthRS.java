@@ -38,7 +38,7 @@ public class AuthRS {
             return ResponseEntity.ok().header("Set-Cookie", "SID=" + authResponse.getSessionId(), "Path=/").build();
             
         } catch (AuthException ex) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getCause());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
         }
         
     }

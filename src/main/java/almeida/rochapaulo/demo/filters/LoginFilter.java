@@ -1,6 +1,7 @@
 package almeida.rochapaulo.demo.filters;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -8,6 +9,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -38,17 +40,23 @@ public class LoginFilter extends GenericFilterBean {
         HttpServletRequest httpRequest = asHttp(req);
         HttpServletResponse httpResponse = asHttp(res);
         
-        Optional<String> sid = Optional.ofNullable(httpRequest.getHeader("SID"));
-        
-        if (sid.isPresent()) {
-            final boolean authenticated = checkSession(sid.get());
-            if (authenticated) {
-            	chain.doFilter(httpRequest, httpResponse);
-            }
+        boolean authenticated = false;
+        for (Cookie cookie : httpRequest.getCookies()) {
+        	
+        	if (Objects.equals("SID", cookie.getName())) {
+        		
+        		authenticated = checkSession(cookie.getValue());
+        		break;
+        	}
         }
         
-        httpResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
-    	httpResponse.sendRedirect("/login");    
+        if (authenticated) {
+        	chain.doFilter(httpRequest, httpResponse);
+        } else {
+        	httpResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
+        	httpResponse.sendRedirect("/login"); 
+        }
+           
     }
 
     private HttpServletRequest asHttp(ServletRequest request) {

@@ -18,7 +18,7 @@ $ mvn clean install
 Second:
 ```sh
 $ mvn cassandra:run
-$ mvn cassandra:cql-exec
+$ mvn cassandra:load
 $ mvn spring-boot:run
 ```
 

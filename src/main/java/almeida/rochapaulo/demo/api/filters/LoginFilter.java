@@ -1,4 +1,4 @@
-package almeida.rochapaulo.demo.filters;
+package almeida.rochapaulo.demo.api.filters;
 
 import java.io.IOException;
 import java.util.Objects;

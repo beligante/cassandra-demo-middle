@@ -1,4 +1,4 @@
-package almeida.rochapaulo.demo.service.exceptions;
+package almeida.rochapaulo.demo.exceptions;
 
 public class AuthException extends RuntimeException {
 

@@ -27,7 +27,7 @@ import almeida.rochapaulo.demo.data.entities.Photo;
 import almeida.rochapaulo.demo.data.entities.PhotoLookupByRank;
 import almeida.rochapaulo.demo.data.entities.PhotosLookupByUserID;
 import almeida.rochapaulo.demo.data.entities.Thumbnail;
-import almeida.rochapaulo.demo.service.query.PhotoQuery;
+import almeida.rochapaulo.demo.data.query.PhotoQuery;
 import net.coobird.thumbnailator.Thumbnails;
 
 /**

@@ -17,9 +17,9 @@ import almeida.rochapaulo.demo.api.responses.AuthResponse;
 import almeida.rochapaulo.demo.api.responses.CreateUserResponse;
 import almeida.rochapaulo.demo.data.entities.UserCredential;
 import almeida.rochapaulo.demo.data.entities.UserProfile;
-import almeida.rochapaulo.demo.service.exceptions.AuthException;
-import almeida.rochapaulo.demo.service.exceptions.EntityAlreadyExists;
-import almeida.rochapaulo.demo.service.query.ProfileQuery;
+import almeida.rochapaulo.demo.data.query.ProfileQuery;
+import almeida.rochapaulo.demo.exceptions.AuthException;
+import almeida.rochapaulo.demo.exceptions.EntityAlreadyExists;
 
 /**
  * 

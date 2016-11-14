@@ -9,12 +9,12 @@ import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.mapping.MappingManager;
 
+import almeida.rochapaulo.demo.api.filters.LoginFilter;
+import almeida.rochapaulo.demo.data.query.QueryFactory;
 import almeida.rochapaulo.demo.data.service.BucketService;
 import almeida.rochapaulo.demo.data.service.PhotoService;
 import almeida.rochapaulo.demo.data.service.SessionService;
 import almeida.rochapaulo.demo.data.service.UserManagement;
-import almeida.rochapaulo.demo.filters.LoginFilter;
-import almeida.rochapaulo.demo.service.query.QueryFactory;
 
 /**
  * 

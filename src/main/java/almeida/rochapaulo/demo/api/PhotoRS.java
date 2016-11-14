@@ -19,8 +19,8 @@ import almeida.rochapaulo.demo.api.requests.CreatePhotoRequest;
 import almeida.rochapaulo.demo.api.responses.CreatePhotoResponse;
 import almeida.rochapaulo.demo.api.responses.PhotoMetadata;
 import almeida.rochapaulo.demo.data.entities.Photo;
+import almeida.rochapaulo.demo.data.query.QueryFactory;
 import almeida.rochapaulo.demo.data.service.PhotoService;
-import almeida.rochapaulo.demo.service.query.QueryFactory;
 
 /**
  * 

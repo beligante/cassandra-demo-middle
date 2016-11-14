@@ -22,9 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 import almeida.rochapaulo.demo.api.requests.CreateUserRequest;
 import almeida.rochapaulo.demo.api.responses.CreateUserResponse;
 import almeida.rochapaulo.demo.data.entities.UserProfile;
+import almeida.rochapaulo.demo.data.query.QueryFactory;
 import almeida.rochapaulo.demo.data.service.UserManagement;
-import almeida.rochapaulo.demo.service.exceptions.EntityAlreadyExists;
-import almeida.rochapaulo.demo.service.query.QueryFactory;
+import almeida.rochapaulo.demo.exceptions.EntityAlreadyExists;
 
 /**
  * 

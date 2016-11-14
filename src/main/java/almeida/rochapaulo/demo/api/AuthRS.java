@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import almeida.rochapaulo.demo.api.requests.AuthRequest;
 import almeida.rochapaulo.demo.api.responses.AuthResponse;
 import almeida.rochapaulo.demo.data.service.UserManagement;
-import almeida.rochapaulo.demo.service.exceptions.AuthException;
+import almeida.rochapaulo.demo.exceptions.AuthException;
 
 /**
  * 

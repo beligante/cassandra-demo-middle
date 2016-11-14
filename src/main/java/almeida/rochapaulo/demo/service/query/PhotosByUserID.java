@@ -15,9 +15,9 @@ import com.google.common.base.Function;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.ListenableFuture;
 
-import almeida.rochapaulo.demo.dao.accessor.PhotosAccessor;
-import almeida.rochapaulo.demo.entities.Photo;
-import almeida.rochapaulo.demo.entities.PhotosLookupByUserID;
+import almeida.rochapaulo.demo.data.accessor.PhotosAccessor;
+import almeida.rochapaulo.demo.data.entities.Photo;
+import almeida.rochapaulo.demo.data.entities.PhotosLookupByUserID;
 
 /**
  * 

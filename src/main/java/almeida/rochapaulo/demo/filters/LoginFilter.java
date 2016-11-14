@@ -17,8 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.filter.GenericFilterBean;
 
-import almeida.rochapaulo.demo.entities.Session;
-import almeida.rochapaulo.demo.service.SessionService;
+import almeida.rochapaulo.demo.data.entities.Session;
+import almeida.rochapaulo.demo.data.service.SessionService;
 
 /**
  * 

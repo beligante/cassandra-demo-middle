@@ -1,4 +1,4 @@
-package almeida.rochapaulo.demo.service;
+package almeida.rochapaulo.demo.data.service;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;

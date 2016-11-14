@@ -10,7 +10,7 @@ import com.google.common.base.Function;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 
-import almeida.rochapaulo.demo.entities.UserProfile;
+import almeida.rochapaulo.demo.data.entities.UserProfile;
 
 /**
  * 

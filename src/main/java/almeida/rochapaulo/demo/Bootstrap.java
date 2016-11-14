@@ -9,11 +9,11 @@ import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.mapping.MappingManager;
 
-import almeida.rochapaulo.demo.bucket.BucketRepository;
+import almeida.rochapaulo.demo.data.service.BucketService;
+import almeida.rochapaulo.demo.data.service.PhotoService;
+import almeida.rochapaulo.demo.data.service.SessionService;
+import almeida.rochapaulo.demo.data.service.UserManagement;
 import almeida.rochapaulo.demo.filters.LoginFilter;
-import almeida.rochapaulo.demo.service.PhotoService;
-import almeida.rochapaulo.demo.service.SessionService;
-import almeida.rochapaulo.demo.service.UserManagement;
 import almeida.rochapaulo.demo.service.query.QueryFactory;
 
 /**
@@ -72,8 +72,8 @@ public class Bootstrap {
     }
 
     @Bean
-    public BucketRepository imageDAO(MappingManager manager) {
-        return new BucketRepository(manager);
+    public BucketService imageDAO(MappingManager manager) {
+        return new BucketService(manager);
     }
 
     @Bean

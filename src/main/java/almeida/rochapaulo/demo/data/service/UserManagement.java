@@ -1,4 +1,4 @@
-package almeida.rochapaulo.demo.service;
+package almeida.rochapaulo.demo.data.service;
 
 import java.util.Date;
 import java.util.List;
@@ -15,8 +15,8 @@ import almeida.rochapaulo.demo.api.requests.AuthRequest;
 import almeida.rochapaulo.demo.api.requests.CreateUserRequest;
 import almeida.rochapaulo.demo.api.responses.AuthResponse;
 import almeida.rochapaulo.demo.api.responses.CreateUserResponse;
-import almeida.rochapaulo.demo.entities.UserCredential;
-import almeida.rochapaulo.demo.entities.UserProfile;
+import almeida.rochapaulo.demo.data.entities.UserCredential;
+import almeida.rochapaulo.demo.data.entities.UserProfile;
 import almeida.rochapaulo.demo.service.exceptions.AuthException;
 import almeida.rochapaulo.demo.service.exceptions.EntityAlreadyExists;
 import almeida.rochapaulo.demo.service.query.ProfileQuery;

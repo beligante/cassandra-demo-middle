@@ -1,4 +1,4 @@
-package almeida.rochapaulo.demo.service;
+package almeida.rochapaulo.demo.data.service;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -9,9 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.Mapper.Option;
-import com.datastax.driver.mapping.MappingManager;
 
-import almeida.rochapaulo.demo.entities.Session;
+import almeida.rochapaulo.demo.data.entities.Session;
+
+import com.datastax.driver.mapping.MappingManager;
 
 /**
  * 

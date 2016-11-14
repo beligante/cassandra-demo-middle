@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import almeida.rochapaulo.demo.bucket.BucketRepository;
+import almeida.rochapaulo.demo.data.service.BucketService;
 
 /**
  * 
@@ -19,10 +19,10 @@ import almeida.rochapaulo.demo.bucket.BucketRepository;
 @RestController
 public class BucketRS {
 
-    private final BucketRepository bucket;
+    private final BucketService bucket;
 
     @Autowired
-    public BucketRS(BucketRepository bucket) {
+    public BucketRS(BucketService bucket) {
         this.bucket = bucket;
     }
 

@@ -1,4 +1,4 @@
-package almeida.rochapaulo.demo.bucket;
+package almeida.rochapaulo.demo.data.service;
 
 import java.nio.ByteBuffer;
 import java.util.UUID;
@@ -8,21 +8,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.MappingManager;
 
-import almeida.rochapaulo.demo.entities.Photo;
-import almeida.rochapaulo.demo.entities.Thumbnail;
+import almeida.rochapaulo.demo.data.entities.Photo;
+import almeida.rochapaulo.demo.data.entities.Thumbnail;
 
 /**
  * 
  * @author rochapaulo
  *
  */
-public class BucketRepository {
+public class BucketService {
 
     private final Mapper<Photo> photoMapper;
     private final Mapper<Thumbnail> thumbnailMapper;
 
     @Autowired
-    public BucketRepository(MappingManager manager) {
+    public BucketService(MappingManager manager) {
         
         photoMapper = manager.mapper(Photo.class);
         thumbnailMapper = manager.mapper(Thumbnail.class);

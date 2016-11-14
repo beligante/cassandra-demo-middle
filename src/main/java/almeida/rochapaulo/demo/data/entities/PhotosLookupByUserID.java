@@ -1,4 +1,4 @@
-package almeida.rochapaulo.demo.entities;
+package almeida.rochapaulo.demo.data.entities;
 
 import java.util.Date;
 import java.util.UUID;
@@ -11,18 +11,17 @@ import com.datastax.driver.mapping.annotations.Table;
 import lombok.Data;
 
 /**
- * FIXME: Shouldn't it be a materialized view?
  * 
  * @author rochapaulo
  *
  */
 @Data
-@Table(name = "latest_photos")
-public class LatestPhotos {
+@Table(name = "photos_by_user_id")
+public class PhotosLookupByUserID {
 
     @PartitionKey
-    @Column(name = "ddmmyyyy")
-    private String ddMMyyyy;
+    @Column(name = "user_id")
+    private UUID userId;
 
     @ClusteringColumn(value = 0)
     @Column(name = "added_date")

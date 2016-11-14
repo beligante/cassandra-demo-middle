@@ -1,4 +1,4 @@
-package almeida.rochapaulo.demo.entities;
+package almeida.rochapaulo.demo.data.entities;
 
 import java.nio.ByteBuffer;
 import java.util.Date;

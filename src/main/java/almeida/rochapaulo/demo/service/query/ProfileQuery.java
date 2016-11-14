@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.google.common.util.concurrent.ListenableFuture;
 
-import almeida.rochapaulo.demo.entities.UserProfile;
+import almeida.rochapaulo.demo.data.entities.UserProfile;
 
 /**
  * 

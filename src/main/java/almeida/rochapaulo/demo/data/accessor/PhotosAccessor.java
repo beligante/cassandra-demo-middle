@@ -1,4 +1,4 @@
-package almeida.rochapaulo.demo.dao.accessor;
+package almeida.rochapaulo.demo.data.accessor;
 
 import java.util.UUID;
 
@@ -7,9 +7,9 @@ import com.datastax.driver.mapping.annotations.Accessor;
 import com.datastax.driver.mapping.annotations.Query;
 import com.google.common.util.concurrent.ListenableFuture;
 
-import almeida.rochapaulo.demo.entities.Photo;
-import almeida.rochapaulo.demo.entities.PhotoLookupByRank;
-import almeida.rochapaulo.demo.entities.PhotosLookupByUserID;
+import almeida.rochapaulo.demo.data.entities.Photo;
+import almeida.rochapaulo.demo.data.entities.PhotoLookupByRank;
+import almeida.rochapaulo.demo.data.entities.PhotosLookupByUserID;
 
 /**
  * 

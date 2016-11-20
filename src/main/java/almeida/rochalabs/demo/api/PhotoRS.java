@@ -39,7 +39,6 @@ public class PhotoRS {
         this.queryFactory = queryFactory;
     }
 
-
     @RequestMapping(
             path = "/api/secure/photos", 
             method = RequestMethod.POST, 
@@ -68,6 +67,7 @@ public class PhotoRS {
                     meta.setDescription(p.getDescription());
                     meta.setName(p.getName());
                     meta.setUser(p.getUserId().toString());
+                    meta.setTags(p.getTags());
                     meta.setLocation("/api/secure/bucket/images/" + p.getUuid());
                     return meta;
                 }).collect(toList());
@@ -97,6 +97,7 @@ public class PhotoRS {
         meta.setDescription(photo.getDescription());
         meta.setName(photo.getName());
         meta.setUser(photo.getUserId().toString());
+        meta.setTags(photo.getTags());
         meta.setLocation("/api/secure/bucket/images/" + photo.getUuid());
 
         return ResponseEntity.ok(meta);
@@ -122,6 +123,7 @@ public class PhotoRS {
                     meta.setDescription(p.getDescription());
                     meta.setName(p.getName());
                     meta.setUser(p.getUserId().toString());
+                    meta.setTags(p.getTags());
                     meta.setLocation("/api/secure/bucket/images/" + p.getUuid());
                     return meta;
                 }).collect(toList());

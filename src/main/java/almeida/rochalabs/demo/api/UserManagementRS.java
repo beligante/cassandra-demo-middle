@@ -75,7 +75,7 @@ public class UserManagementRS {
 
         List<UserProfile> profile = service.findProfileBy(queryFactory.profileByUUID(UUID.fromString(userId))).get();
 
-        if (profile == null) {
+        if (profile.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 

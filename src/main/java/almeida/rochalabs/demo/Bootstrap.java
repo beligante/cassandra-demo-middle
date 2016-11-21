@@ -24,11 +24,22 @@ import almeida.rochalabs.demo.data.service.UserManagement;
 @SpringBootApplication
 public class Bootstrap {
 
-    static final String CONTACT_POINT = "127.0.0.1";
-    static final String CLUSTER_NAME = "Test Cluster";
-    static final String KEYSPACE = "demo";
+    static String CONTACT_POINT = "127.0.0.1";
+    static String CLUSTER_NAME = "Test Cluster";
+    static String KEYSPACE = "demo";
     
     public static void main(String[] args) {
+    	
+    	if (args.length > 0) {
+    		CONTACT_POINT = args[0];
+    	}
+    	if (args.length > 1) {
+    		CLUSTER_NAME = args[1];
+    	}
+    	if (args.length > 2) {
+    		KEYSPACE = args[2];
+    	}
+    	
         SpringApplication.run(Bootstrap.class, args);
     }
 

@@ -1,4 +1,4 @@
-![Alt text](/src/cassandra/diagram.png?raw=true "Modeling Diagram")
+![Alt text](/src/main/resources/cassandra/diagram.png?raw=true "Modeling Diagram")
 
 ### Libraries
 * [cassandra maven plugin] 3.5

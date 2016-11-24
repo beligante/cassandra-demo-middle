@@ -1,5 +1,7 @@
 package almeida.rochalabs.demo;
 
+import java.nio.charset.Charset;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -8,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.mapping.MappingManager;
+import com.google.common.io.Resources;
 
 import almeida.rochalabs.demo.api.filters.LoginFilter;
 import almeida.rochalabs.demo.data.query.QueryFactory;
@@ -44,8 +47,18 @@ public class Bootstrap {
     }
 
     @Bean
-    public Session session() {
+    public Session session() throws Exception {
         Cluster cluster = Cluster.builder().addContactPoint(CONTACT_POINT).withClusterName(CLUSTER_NAME).build();
+        
+        Session session = cluster.connect();
+        String schema = Resources.toString(Resources.getResource("cassandra/cql/load.cql"), Charset.forName("UTF-8"));
+        
+        final String[] commands = schema.replace(System.lineSeparator(), "").split(";");
+        for (String command : commands) {
+        	session.execute(command);
+        }
+        session.close();
+        
         return cluster.connect(KEYSPACE);
     }
 

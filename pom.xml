@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.4.1.RELEASE</version>
+		<version>1.4.2.RELEASE</version>
 	</parent>
 
 	<developers>
@@ -60,6 +60,10 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+		</dependency>
 	</dependencies>
 
 	<properties>
@@ -79,7 +83,9 @@
 				<configuration>
 					<cqlVersion>3.0.0</cqlVersion>
 					<startNativeTransport>true</startNativeTransport>
+					<cqlScript>resources/cassandra/cql/load.cql</cqlScript>
 				</configuration>
+				
 			</plugin>
 		</plugins>
 	</build>

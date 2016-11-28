@@ -24,7 +24,6 @@ import almeida.rochalabs.demo.api.responses.CreateUserResponse;
 import almeida.rochalabs.demo.data.entities.UserProfile;
 import almeida.rochalabs.demo.data.query.QueryFactory;
 import almeida.rochalabs.demo.data.service.UserManagement;
-import almeida.rochalabs.demo.exceptions.EntityAlreadyExists;
 
 /**
  * 
@@ -49,19 +48,15 @@ public class UserManagementRS {
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<?> createUser(@RequestBody CreateUserRequest request) throws Exception {
-
-        try {
-
-            CreateUserResponse profileCreated = service.createUser(request).get();
-            URI resourceLocation = new URI("/users/" + profileCreated.getUserId());
-
-            return ResponseEntity.created(resourceLocation).build();
-
-        } catch (EntityAlreadyExists ex) {
-
+        
+        CreateUserResponse profileCreated = service.createUser(request).exceptionally(exception -> null).get();
+        if (profileCreated == null) {
             String message = "user email " + request.getEmail() + " already exists";
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(message);
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(message); 
         }
+        
+        URI resourceLocation = new URI("/users/" + profileCreated.getUserId());
+        return ResponseEntity.created(resourceLocation).build();
 
     }
 

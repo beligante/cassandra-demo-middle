@@ -60,7 +60,6 @@ public class UserManagementRS {
 
     }
 
-    
     @RequestMapping(
             path = "/api/secure/users/{userId}", 
             method = RequestMethod.GET, 
@@ -74,7 +73,7 @@ public class UserManagementRS {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(profile);
+        return ResponseEntity.ok(profile.get(0));
     }
 
     @RequestMapping(

@@ -56,7 +56,7 @@ public class CFixture implements TestRule {
                     
                     KeyspaceMetadata ksMetadata = cluster.getMetadata().getKeyspace(keyspace);
                     for (TableMetadata table : ksMetadata.getTables()) {
-                        session.executeAsync(truncate(table));
+                        session.execute(truncate(table));
                     }
                     
                     cluster.closeAsync();

@@ -1,6 +1,7 @@
 package almeida.rochalabs.demo.data.query;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,7 +37,8 @@ public class ProfileByUserID implements ProfileQuery {
 
     private Function<UserProfile, List<UserProfile>> wrap2List() {
         
-        return (Function<UserProfile, List<UserProfile>>) profile -> Arrays.asList(profile);
+        return (Function<UserProfile, List<UserProfile>>) 
+        		profile -> profile != null ? Arrays.asList(profile) : Collections.emptyList();
     }
  
 }

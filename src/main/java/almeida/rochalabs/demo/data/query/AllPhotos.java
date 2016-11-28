@@ -37,7 +37,7 @@ public class AllPhotos implements PhotoQuery {
 
         final List<Photo> result = Collections.synchronizedList(new ArrayList<>());
         return (Function<Result<Photo>, List<Photo>>) photos -> {
-            
+
             photos.forEach(result::add);
             return result;
         };

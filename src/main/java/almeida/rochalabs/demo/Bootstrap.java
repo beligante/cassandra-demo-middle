@@ -12,6 +12,7 @@ import com.datastax.driver.core.Session;
 import com.datastax.driver.mapping.MappingManager;
 import com.google.common.io.Resources;
 
+import almeida.rochalabs.demo.api.filters.CORSFilter;
 import almeida.rochalabs.demo.api.filters.LoginFilter;
 import almeida.rochalabs.demo.data.query.QueryFactory;
 import almeida.rochalabs.demo.data.service.BucketService;
@@ -45,7 +46,7 @@ public class Bootstrap {
     	
         SpringApplication.run(Bootstrap.class, args);
     }
-
+    
     @Bean
     public Session session() throws Exception {
         Cluster cluster = Cluster.builder().addContactPoint(CONTACT_POINT).withClusterName(CLUSTER_NAME).build();
@@ -63,6 +64,20 @@ public class Bootstrap {
     }
 
     @Bean
+    public FilterRegistrationBean corsFilter() {
+    	
+    	FilterRegistrationBean registration = new FilterRegistrationBean();
+    	
+    	registration.setFilter(new CORSFilter());
+    	registration.addUrlPatterns("*");
+    	registration.setName("CORS Filter");
+    	registration.setOrder(1);
+    	
+    	return registration;
+    }
+    
+	
+    @Bean
     public FilterRegistrationBean loginFilter(SessionService service) {
     	
     	FilterRegistrationBean registration = new FilterRegistrationBean();
@@ -70,7 +85,7 @@ public class Bootstrap {
     	registration.setFilter(new LoginFilter(service));
     	registration.addUrlPatterns("/api/secure/*");
         registration.setName("LoginFilter");
-        registration.setOrder(1);
+        registration.setOrder(2);
         
     	return registration;
     }

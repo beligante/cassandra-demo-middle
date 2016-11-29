@@ -121,18 +121,13 @@ public class AuthRSIT {
     }
     
     @Test
-    public void logout() {
-        
-        userService.createUser(new CreateUserRequest("rochapaulo@domain.com", "password", "Paulo", "Almeida"));
-        
-        AuthRequest body = new AuthRequest("rochapaulo@domain.com", "password");
-        ResponseEntity<Void> authResponse = client.exchange("/api/login", POST, new HttpEntity<AuthRequest>(body), Void.class);
-        
-        HttpHeaders responseHeaders = authResponse.getHeaders();
-        String cookie = responseHeaders.get("Set-Cookie").get(0);
+    public void logout() throws Exception {
+
+    	UUID userID = UUID.randomUUID();
+    	UUID sid = sessionService.put(userID).get();
         
         LinkedMultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-        headers.add(HttpHeaders.COOKIE, cookie);
+        headers.add(HttpHeaders.COOKIE, "SID=" + sid);
         
         ResponseEntity<Void> logoutResponse = client.exchange("/api/secure/logout", POST, new HttpEntity<>(headers), Void.class);
         Assert.assertEquals(HttpStatus.NO_CONTENT, logoutResponse.getStatusCode());

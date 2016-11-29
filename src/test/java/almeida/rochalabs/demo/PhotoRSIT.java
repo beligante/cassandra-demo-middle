@@ -58,7 +58,7 @@ public class PhotoRSIT {
 
     @ClassRule
     public static CassandraCQLUnit cassandra = 
-        new CassandraCQLUnit(new ClassPathCQLDataSet("cassandra/cql/load.cql"), "cassandra_config.yaml");
+        new CassandraCQLUnit(new ClassPathCQLDataSet("cassandra/cql/load.cql"), "cassandra_config.yaml", 20000L);
     
     @Autowired 
     public TestRestTemplate client;

@@ -1,6 +1,7 @@
 package almeida.rochalabs.demo.api.requests;
 
 import java.util.Set;
+import java.util.UUID;
 
 import lombok.Data;
 
@@ -12,7 +13,7 @@ import lombok.Data;
 @Data
 public class CreatePhotoRequest {
 
-    private String userId;
+    private UUID userId;
     private String name;
     private String description;
     private Set<String> tags;

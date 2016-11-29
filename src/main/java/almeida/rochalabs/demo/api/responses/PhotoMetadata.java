@@ -1,6 +1,7 @@
 package almeida.rochalabs.demo.api.responses;
 
 import java.util.Set;
+import java.util.UUID;
 
 import lombok.Data;
 
@@ -12,7 +13,7 @@ import lombok.Data;
 @Data
 public class PhotoMetadata {
 
-    private String user;
+    private UUID user;
     private String name;
     private String description;
     private Set<String> tags;

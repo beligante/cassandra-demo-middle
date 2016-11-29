@@ -1,5 +1,7 @@
 package almeida.rochalabs.demo.data.query;
 
+import static java.util.Collections.emptyList;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -36,7 +38,7 @@ public class PhotoByPhotoID implements PhotoQuery {
 
     private Function<Photo, List<Photo>> wrap2List() {
         
-        return (Function<Photo, List<Photo>>) photo -> Arrays.asList(photo);
+        return (Function<Photo, List<Photo>>) photo -> photo != null ? Arrays.asList(photo) : emptyList();
     }
 
 }

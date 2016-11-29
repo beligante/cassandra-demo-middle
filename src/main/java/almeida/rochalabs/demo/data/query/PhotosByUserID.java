@@ -66,7 +66,9 @@ public class PhotosByUserID implements PhotoQuery {
             }
 
             @Override
-            public void onFailure(Throwable throwable) { }
+            public void onFailure(Throwable throwable) {
+                throwable.printStackTrace();
+            }
             
         };
     }

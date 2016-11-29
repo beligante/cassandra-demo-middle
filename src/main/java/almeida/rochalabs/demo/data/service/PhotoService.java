@@ -65,7 +65,7 @@ public class PhotoService {
         return CompletableFuture.supplyAsync(() -> {
            
             final UUID imageUUID = UUID.randomUUID();
-            final UUID userUUID = UUID.fromString(request.getUserId());
+            final UUID userUUID = request.getUserId();
             final Date today = new Date();
             final byte[] imageBytes = Base64.getDecoder().decode(request.getBase64Image().getBytes());
             

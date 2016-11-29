@@ -66,7 +66,7 @@ public class PhotoRS {
                     PhotoMetadata meta = new PhotoMetadata();
                     meta.setDescription(p.getDescription());
                     meta.setName(p.getName());
-                    meta.setUser(p.getUserId().toString());
+                    meta.setUser(p.getUserId());
                     meta.setTags(p.getTags());
                     meta.setLocation("/api/secure/bucket/images/" + p.getUuid());
                     return meta;
@@ -96,7 +96,7 @@ public class PhotoRS {
         PhotoMetadata meta = new PhotoMetadata();
         meta.setDescription(photo.getDescription());
         meta.setName(photo.getName());
-        meta.setUser(photo.getUserId().toString());
+        meta.setUser(photo.getUserId());
         meta.setTags(photo.getTags());
         meta.setLocation("/api/secure/bucket/images/" + photo.getUuid());
 
@@ -122,7 +122,7 @@ public class PhotoRS {
                     PhotoMetadata meta = new PhotoMetadata();
                     meta.setDescription(p.getDescription());
                     meta.setName(p.getName());
-                    meta.setUser(p.getUserId().toString());
+                    meta.setUser(p.getUserId());
                     meta.setTags(p.getTags());
                     meta.setLocation("/api/secure/bucket/images/" + p.getUuid());
                     return meta;

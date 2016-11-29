@@ -1,13 +1,17 @@
 package almeida.rochalabs.demo;
 
+import static com.datastax.driver.core.querybuilder.QueryBuilder.truncate;
 import static com.google.common.collect.Maps.uniqueIndex;
 import static org.springframework.http.HttpMethod.POST;
 
 import java.util.List;
 import java.util.UUID;
 
+import org.cassandraunit.CassandraCQLUnit;
+import org.cassandraunit.dataset.cql.ClassPathCQLDataSet;
+import org.junit.After;
 import org.junit.Assert;
-import org.junit.Rule;
+import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +26,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.datastax.driver.core.KeyspaceMetadata;
+import com.datastax.driver.core.Metadata;
+import com.datastax.driver.core.Session;
+import com.datastax.driver.core.TableMetadata;
 import com.google.common.collect.ImmutableMap;
 
 import almeida.rochalabs.demo.api.requests.CreateUserRequest;
@@ -31,16 +39,39 @@ import almeida.rochalabs.demo.data.entities.UserProfile;
 import almeida.rochalabs.demo.data.service.SessionService;
 import almeida.rochalabs.demo.data.service.UserManagement;
 
+/**
+ * 
+ * @author rochapaulo
+ *
+ */
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = { LocalConfiguration.class })
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = LocalConfiguration.class)
 public class UserManagementRSIT {
 
-    @Rule
-    public CFixture cFixture = CFixture.connect("demo");
+    @ClassRule
+    public static CassandraCQLUnit cassandra = 
+        new CassandraCQLUnit(new ClassPathCQLDataSet("cassandra/cql/load.cql"), "cassandra_config.yaml");
     
-    @Autowired public TestRestTemplate client;
-    @Autowired public SessionService sessionService;
-    @Autowired public UserManagement userService;
+    @Autowired 
+    public TestRestTemplate client;
+    
+    @Autowired 
+    public SessionService sessionService;
+    
+    @Autowired 
+    public UserManagement userService;
+    
+    @After
+    public void cleanUp() {
+        
+        Session session = cassandra.getSession();
+        Metadata metadata = cassandra.getCluster().getMetadata();
+        KeyspaceMetadata keyspaceMetadata = metadata.getKeyspace("demo");
+        for (TableMetadata table : keyspaceMetadata.getTables()) {
+            session.execute(truncate(table));
+        }
+        
+    }
     
     @Test
     public void createUser_success() {

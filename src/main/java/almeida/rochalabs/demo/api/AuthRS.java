@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import almeida.rochalabs.demo.api.requests.AuthRequest;
 import almeida.rochalabs.demo.api.responses.AuthResponse;
 import almeida.rochalabs.demo.data.service.UserManagement;
-import almeida.rochalabs.demo.exceptions.AuthException;
 
 /**
  * 
@@ -39,20 +38,16 @@ public class AuthRS {
     )
     public ResponseEntity<?> login(@RequestBody AuthRequest request) throws Exception {
     
-        try {
-            
-            AuthResponse authResponse = service.authenticate(request).get();
+        AuthResponse authResponse = service.authenticate(request).exceptionally(ex -> null).get();
+        if (authResponse != null) {
             return ResponseEntity.ok().header("Set-Cookie", "SID=" + authResponse.getSessionId(), "Path=/").build();
-            
-        } catch (AuthException ex) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
         }
-        
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Credentials");
     }
     
     
     @RequestMapping(
-            path = "/api/logout", 
+            path = "/api/secure/logout", 
             method = RequestMethod.POST
     )
     public ResponseEntity<?> logout(@CookieValue("SID") String sessionID) throws Exception {

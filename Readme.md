@@ -14,7 +14,7 @@
 1) Build cassandra-demo-middle docker image
 ```sh
 $ mvn clean install
-$ docker -t cassandrademomiddle .
+$ docker build -t cassandrademomiddle .
 ```
 
 2) Start cassandra container

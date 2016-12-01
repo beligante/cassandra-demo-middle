@@ -10,16 +10,21 @@
 [cassandra driver core]: <https://mvnrepository.com/artifact/com.datastax.cassandra/cassandra-driver-core/3.1.0>
 [cassandra driver mapping core]: <https://mvnrepository.com/artifact/com.datastax.cassandra/cassandra-driver-mapping/3.1.0>
 
-### Installation
-First:
+### Running
+1) Build cassandra-demo-middle docker image
 ```sh
 $ mvn clean install
+$ docker -t cassandrademomiddle .
 ```
-Second:
+
+2) Start cassandra container
 ```sh
-$ mvn cassandra:run
-$ mvn cassandra:load
-$ mvn spring-boot:run
+$ docker run --name demo-cassandra -d cassandra:3.9
+```
+
+3) Start cassandra-demo-middle container
+```sh
+$ docker run --link demo-cassandra:cassandra -p 8080:8080 cassandrademomiddle $(docker inspect --format='{{ .NetworkSettings.IPAddress }}' demo-cassandra)
 ```
 
 ### API (REST: Postman Collection)

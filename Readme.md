@@ -12,7 +12,6 @@
 
 
 ### Building
-1) Build cassandra-demo-middle docker image
 ```sh
 $ mvn clean install
 $ docker build -t cassandra-demo-middle .

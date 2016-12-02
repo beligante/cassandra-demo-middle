@@ -17,12 +17,12 @@ $ mvn clean install
 $ docker build -t cassandra-demo-middle .
 ```
 
-#### Running
+### Running
 ```sh
 $ docker-compose up -d
 ```
 
-#### Scaling Up
+### Scaling Up
 ```sh
 $ docker-compose scale middle={nContainers} cassandra={nContainers}
 ```

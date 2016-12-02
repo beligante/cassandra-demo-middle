@@ -1,0 +1,22 @@
+version: '2'
+services:
+  middle:
+    image: cassandra-demo-middle
+    ports:
+      - 8080
+    links:
+      - cassandra
+    entrypoint:
+      ./wait-for-it.sh -t 0 cassandra:9042 -- java -jar app.jar cassandra
+  cassandra-seed:
+    image: cassandra:3.9
+  cassandra:
+    image: cassandra:3.9
+    links:
+      - cassandra-seed
+    environment:
+      CASSANDRA_SEEDS: cassandra-seed
+  cassandra-cluster:
+    image: cassandra:3.9
+    links:
+      - cassandra

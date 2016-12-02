@@ -1,6 +1,7 @@
 FROM openjdk:8u111-jdk-alpine
 RUN apk add --no-cache bash gawk sed grep bc coreutils
 VOLUME /tmp
+COPY wait-for-it.sh wait-for-it.sh
 ADD run.sh run.sh
 ADD target/cassandra-demo-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
